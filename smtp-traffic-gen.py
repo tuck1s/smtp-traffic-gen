@@ -37,7 +37,7 @@ content = [
 ]
 
 # -----------------------------------------------------------------------------
-class Recipients:
+class RandomRecips:
     def __init__(self, size):
         # Prepare a local list of actual random names
         self.names = []
@@ -128,7 +128,7 @@ async def send_msgs_async(msgs: list, host='localhost', port='25'):
 
 
 # Generator yielding a list of n randomized messages
-def messages(n: int, r: Recipients):
+def messages(n: int, r: RandomRecips):
     for i in range(n):
         from_email = Address('Test sender', 'test@espops.com')
         recip = r.rand_recip()
@@ -144,8 +144,8 @@ def messages(n: int, r: Recipients):
 
 
 # f = an iterator (such as a generator function) that will yield the messages
-# host and port are passed onwards via kwargs
-async def send_batch(f: Iterator, messages_per_connection = 5, max_connections = 20, **kwargs):
+# per-connection settings such as host and port are passed onwards via kwargs
+async def send_batch(f: Iterator, messages_per_connection = 100, max_connections = 20, **kwargs):
     this_batch = []
     coroutines = []
     for i in f:
@@ -156,15 +156,13 @@ async def send_batch(f: Iterator, messages_per_connection = 5, max_connections =
 
         # when max connections are ready, dispatch them
         if len(coroutines) >= max_connections:
-            print('Dispatching {} coroutines'.format(len(coroutines)))
             await asyncio.gather(*coroutines)
             coroutines = []
 
-    # handle any remnant
+    # handle remnant, if any
     if this_batch:
         coroutines.append(send_msgs_async(this_batch, **kwargs))
     if(coroutines):
-        print('Finally: dispatching {} coroutines'.format(len(coroutines)))
         await asyncio.gather(*coroutines)
 
 # -----------------------------------------------------------------------------
@@ -172,18 +170,27 @@ async def send_batch(f: Iterator, messages_per_connection = 5, max_connections =
 # -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    r = Recipients(100) # Get some pseudorandom recipients
+    nNames = 200
+    print('Getting {} randomized real names from US 1990 census data'.format(nNames))
+    startTime = time.time()
+    r = RandomRecips(nNames) # Get some pseudorandom recipients
+    print('Done in {0:.1f}s.'.format(time.time() - startTime))
 
-    # port 25 for direct to the sink
-    # port 2525 for queue_to_sink listener
-    # port 587  for email submission that will be delivered to MXs
+    # port 25   direct to the sink
+    # port 2525 queue_to_sink listener (passes messages through the MTA to show stats etc)
+    # port 587  for email submission that will be delivered to real MXs
     mail_params = {
         'host': 'localhost',
-        'port': 25,
-        'messages_per_connection': 5,
-        'max_connections': 5,
+        'port': 2525,
+        'messages_per_connection': 100,
+        'max_connections': 20,
     }
-    asyncio.run(send_batch(messages(87, r), **mail_params))
+    batch_size = 200
+    print('Sending {} emails over max {} SMTP connections, {} max messages per connection'
+        .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection']))
+    startTime = time.time()
+    asyncio.run(send_batch(messages(batch_size, r), **mail_params))
+    print('Done in {0:.1f}s.'.format(time.time() - startTime))
     exit(0)
 
 
