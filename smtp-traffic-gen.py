@@ -5,11 +5,12 @@
 # Configurable traffic volume per minute
 # Uses redis to communicate results to webReporter
 #
-import random, os, sys, time, json, names, asyncio, aiosmtplib
+import random, os, sys, time, json, names, asyncio
 from datetime import datetime, timezone
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import email
+
+from email.message import EmailMessage
+from email.headerregistry import Address
+from aiosmtplib import SMTP
 from aiosmtplib.errors import SMTPException
 
 def eprint(*args, **kwargs):
@@ -59,7 +60,7 @@ class Recipients:
 
     def rand_recip(self):
         first, last = self.rand_name()
-        return str.lower(first) + '.' + str.lower(last) + '@' + random.choice(self.domains)
+        return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + '@' + random.choice(self.domains))
 
 htmlTemplate = \
 '''<!DOCTYPE html>
@@ -72,6 +73,11 @@ htmlTemplate = \
     Click <a href="{}">{}</a>
   </body>
 </html>'''
+
+textTemplate = \
+'''
+Plain text version - Click {}
+'''
 
 # Contents include a valid http(s) link with custom link name
 def randomContents():
@@ -94,28 +100,25 @@ def stripEnd(h, s):
 
 #---------
 
-async def send_mail_async(msg, **params):
-    # Contact SMTP server and send Message
+# Send a list of messages via the specified SMTP server
+async def send_msgs_async(msgs: list, **params):
     mail_params = params.get("mail_params")
     host = mail_params.get('host', 'localhost')
     port = mail_params.get('port')
     try:
         # Don't attempt SSL from start of connection, but allow STARTTLS (default) with loose certs
-        smtp = aiosmtplib.SMTP(hostname=host, port=port, use_tls=False, validate_certs=False)
+        smtp = SMTP(hostname=host, port=port, use_tls=False, validate_certs=False)
         await smtp.connect()
-        errors, res_text = await smtp.send_message(msg)
-        # errors, res_text = await smtp.send_message(msg)
-        if errors:
-            # this happens if mutltiple recipients, and some are accepted & some rejected - see
-            # https://aiosmtplib.readthedocs.io/en/latest/reference.html#aiosmtplib.SMTP.sendmail
-            eprint(errors)
-        else:
-            print(res_text)
-        pass
+        for msg in msgs:
+            errors = await smtp.send_message(msg)
+            # errors, res_text = await smtp.send_message(msg)
+            if errors:
+                # this happens if mutltiple recipients, and some are accepted & some rejected - see
+                # https://aiosmtplib.readthedocs.io/en/latest/reference.html#aiosmtplib.SMTP.sendmail
+                eprint(errors)
 
     except SMTPException as e:
-        t = type(e)
-        eprint('{}: {}'.format(t, str(e)))
+        eprint('{}: {}'.format(type(e), str(e)))
 
     finally:
         try:
@@ -123,7 +126,23 @@ async def send_mail_async(msg, **params):
         finally:
             # Should now be closed as we asked to QUIT, but if it's not, then force closure
             if smtp.is_connected:
-                smtp.close()
+                await smtp.close()
+
+# Generator yielding a list of n randomized messages
+def messages(n: int, r: Recipients):
+    for i in range(n):
+         # Prepare message
+        from_email = Address('Test sender', 'test@espops.com')
+        recip = r.rand_recip()
+        msg = EmailMessage()
+        msg['Subject'] = 'A python test message'
+        msg['From'] = from_email
+        msg['To'] = recip
+        msg['X-Bounce-Me'] = '432 4.2.1 bouncing a message from Python smtp code'
+        msg['X-Bounce-Percentage'] = '5'
+        msg.set_content(textTemplate)
+        msg.add_alternative(htmlTemplate, subtype='html')
+        yield msg
 
 # -----------------------------------------------------------------------------
 # Main code
@@ -131,27 +150,15 @@ async def send_mail_async(msg, **params):
 
 if __name__ == "__main__":
     r = Recipients(100)
-    print(r.rand_recip())
 
     # port 25 for direct to the sink
     # port 2525 for queue_to_sink listener
     # port 587  for email submission that will be delivered to MXs
     mail_params = {'host': 'localhost', 'port': 25}
-
-    # Prepare message
-    from_email = 'test@espops.com'
-    to_email = 'steve.tuck@halon.io'
-    #msg = MIMEMultipart()
-    msg = email.message.EmailMessage()
-    msg['Subject'] = 'A python test message'
-    msg['From'] = from_email
-    msg['To'] = to_email
-    msg['X-Bounce-Me'] = '432 4.2.1 bouncing a message from Python smtp code'
-    msg['X-Bounce-Percentage'] = '5'
-    msg.set_content('Test 1 Message')
-
-    co1 = send_mail_async(msg, mail_params = mail_params)
-    co2 = send_mail_async(msg, mail_params = mail_params)
+    msgs = messages(10, r)
+    co1 = send_msgs_async(msgs, mail_params = mail_params)
+    msgs = messages(10, r)
+    co2 = send_msgs_async(msgs, mail_params = mail_params)
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.gather(co1, co2))
