@@ -186,8 +186,6 @@ if __name__ == "__main__":
     startTime = time.time()
     asyncio.run(send_batch(messages(batch_size, recips, content), **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
-    exit(0)
-
 
 exit(0)
 msgPerMinLow = os.getenv('MESSAGES_PER_MINUTE_LOW', '')
@@ -210,76 +208,6 @@ else:
     print('Invalid MESSAGES_PER_MINUTE_HIGH setting - must be number 1 to 10000')
     exit(1)
 
-apiKey = os.getenv('SPARKPOST_API_KEY')        # API key is mandatory
-if apiKey == None:
-    print('SPARKPOST_API_KEY environment variable not set - stopping.')
-    exit(1)
-
-host = hostCleanup(os.getenv('SPARKPOST_HOST', default='api.sparkpost.com'))
-
-fromEmail = os.getenv('FROM_EMAIL')
-if fromEmail == None:
-    print('FROM_EMAIL environment variable not set - stopping.')
-    exit(1)
-
-resultsKey = os.getenv('RESULTS_KEY')
-if resultsKey == None:
-    print('RESULTS_KEY environment variable not set - stopping.')
-    exit(1)
-
-trackOpens = strToBool(os.getenv('TRACK_OPENS', default='True'))
-if trackOpens == None:
-    print('TRACK_OPENS set to invalid value - should be True or False')
-    exit(1)
-
-trackClicks = strToBool(os.getenv('TRACK_CLICKS', default='True'))
-if trackClicks == None:
-    print('TRACK_CLICKS set to invalid value - should be True or False')
-    exit(1)
-
-sp = SparkPost(api_key = apiKey, base_uri = host)
-print('Opened connection to', host)
-
-startTime = time.time()                                         # measure run time
-res = getResults()                                              # read back results from previous run (if any)
-if not res:
-    res = {
-        'startedRunning': timeStr(startTime),                   # this is the first run - initialise
-        'totalSentVolume': 0
-    }
 
 # Send every n minutes, between low and high traffic rate
 thisRunSize = int(random.uniform(msgPerMinLow * sendInterval, msgPerMinHigh * sendInterval))
-print('Sending from {} to {} recipients, TRACK_OPENS={}, TRACK_CLICKS={}'.format(fromEmail, thisRunSize, trackOpens, trackClicks))
-recipients = []
-countSent = 0
-anyError = ''
-for i in range(0, thisRunSize):
-    if len(recipients) >= batchSize:
-        c, err = sendRandomCampaign(sp, recipients, trackOpens=trackOpens, trackClicks=trackClicks)
-        countSent += c
-        if err:
-            anyError = err                      # remember any error codes seen
-        recipients=[]
-if len(recipients) > 0:                         # Send residual batch
-    c, err = sendRandomCampaign(sp, recipients, trackOpens=trackOpens, trackClicks=trackClicks)
-    countSent += c
-    if err:
-        anyError = err                          # remember any error codes seen
-
-# write out results to console and to redis
-endTime = time.time()
-runTime = endTime - startTime
-print('Done in {0:.1f}s.'.format(runTime))
-res.update( {
-    'lastRunTime': timeStr(startTime),
-    'lastRunDuration': round(runTime, 3),
-    'lastRunSize': thisRunSize,
-    'lastRunSent': countSent,
-    'lastRunError': anyError,
-    'nextRunTime': timeStr(startTime + 60 *sendInterval)
-})
-res['totalSentVolume'] += countSent
-
-if setResults(json.dumps(res)):
-    print('Results written to redis')
