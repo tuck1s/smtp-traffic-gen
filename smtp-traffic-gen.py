@@ -3,10 +3,8 @@
 # SMTP Traffic Generator
 #
 # Configurable traffic volume per minute
-# Uses redis to communicate results to webReporter
-#
+
 import random, os, sys, time, json, names, asyncio
-from datetime import datetime, timezone
 
 from email.message import EmailMessage
 from email.headerregistry import Address
@@ -14,29 +12,58 @@ from aiosmtplib import SMTP
 from aiosmtplib.errors import SMTPException
 from typing import Iterator
 
+#Print to stderr - see https://stackoverflow.com/a/14981125/8545455
 def eprint(*args, **kwargs):
-    """
-    Print to stderr - see https://stackoverflow.com/a/14981125/8545455
-    """
     print(*args, file=sys.stderr, **kwargs)
 
 
+def stripEnd(h, s):
+    if h.endswith(s):
+        h = h[:-len(s)]
+    return h
+
 # -----------------------------------------------------------------------------------------
-# Configurable recipient domains, recipient substitution data, html clickable link, campaign, subject etc
+# Configurable email content, recipients etc
 # -----------------------------------------------------------------------------------------
 
-htmlLink = 'http://example.com/index.html'
+class EmailContent:
+    def __init__(self):
+        self.htmlLink = 'http://example.com/index.html'
 
-content = [
-    {'X-Job': 'Todays_Sales', 'subject': 'Today\'s sales', 'linkname': 'Deal of the Day'},
-    {'X-Job': 'Newsletter', 'subject': 'Newsletter', 'linkname': 'More Daily News'},
-    {'X-Job': 'Last Minute Savings', 'subject': 'Savings', 'linkname': 'Last Minute Savings'},
-    {'X-Job': 'Password_Reset', 'subject': 'Password reset', 'linkname': 'Password Reset'},
-    {'X-Job': 'Welcome_Letter', 'subject': 'Welcome letter', 'linkname': 'Contact Form'},
-    {'X-Job': 'Holiday_Bargains', 'subject': 'Holiday bargains', 'linkname': 'Holiday Bargains'}
-]
+        self.content = [
+            {'X-Job': 'Todays_Sales', 'subject': 'Today\'s sales'},
+            {'X-Job': 'Newsletter', 'subject': 'Newsletter'},
+            {'X-Job': 'Last Minute Savings', 'subject': 'Savings'},
+            {'X-Job': 'Password_Reset', 'subject': 'Password reset'},
+            {'X-Job': 'Welcome_Letter', 'subject': 'Welcome letter'},
+            {'X-Job': 'Holiday_Bargains', 'subject': 'Holiday bargains'}
+        ]
 
-# -----------------------------------------------------------------------------
+        self.htmlTemplate = \
+'''<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>test mail</title>
+  </head>
+  <body>
+    Click <a href="{}">{}</a>
+  </body>
+</html>'''
+
+        self.textTemplate = \
+'''
+Plain text - URL here {}
+'''
+
+    def rand_job_subj_text_html(self):
+        # Contents include a valid http(s) link with custom link name
+        c = random.choice(self.content)
+        text = self.textTemplate.format(self.htmlLink)
+        html = self.htmlTemplate.format(self.htmlLink, self.htmlLink)
+        return c['X-Job'], c['subject'], text, html
+
+
 class RandomRecips:
     def __init__(self, size):
         # Prepare a local list of actual random names
@@ -61,45 +88,31 @@ class RandomRecips:
 
     def rand_recip(self):
         first, last = self.rand_name()
-        return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + '@' + random.choice(self.domains))
+        # Most of the time, add a number suffix
+        if random.randint(1, 999) > 200:
+            suffix = str(random.randint(1, 999))
+        else:
+            suffix = ''
+        return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + suffix + '@' + random.choice(self.domains))
 
-htmlTemplate = \
-'''<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>test mail</title>
-  </head>
-  <body>
-    Click <a href="{}">{}</a>
-  </body>
-</html>'''
 
-textTemplate = \
-'''
-Plain text version - Click {}
-'''
+# Generator yielding a list of n randomized messages
+def messages(n: int, r: RandomRecips, c: EmailContent):
+    for i in range(n):
+        from_email = Address('Test sender', 'test@espops.com')
+        recip = r.rand_recip()
+        msg = EmailMessage()
+        x_job, subject, text, html = c.rand_job_subj_text_html()
+        msg['Subject'] = subject
+        msg['From'] = from_email
+        msg['To'] = recip
+        msg['X-Job'] = x_job
+        msg['X-Bounce-Me'] = '432 4.2.1 bouncing a message from Python smtp code'
+        msg['X-Bounce-Percentage'] = '5'
+        msg.set_content(text)
+        msg.add_alternative(html, subtype='html')
+        yield msg
 
-# Contents include a valid http(s) link with custom link name
-def randomContents():
-    c = random.choice(content)
-    htmlBody = htmlTemplate.format(htmlLink, htmlLink)
-    return c['campaign'], c['subject'], htmlBody
-
-# Inject the messages for a batch of recipients
-def sendToRecips(recipBatch, sendObj):
-    startT = time.time()
-
-def timeStr(t):
-    utc = datetime.fromtimestamp(t, timezone.utc)
-    return datetime.isoformat(utc, sep='T', timespec='seconds')
-
-def stripEnd(h, s):
-    if h.endswith(s):
-        h = h[:-len(s)]
-    return h
-
-#---------
 
 # Send a list of messages via the specified SMTP server
 async def send_msgs_async(msgs: list, host='localhost', port='25'):
@@ -109,9 +122,8 @@ async def send_msgs_async(msgs: list, host='localhost', port='25'):
         await smtp.connect()
         for msg in msgs:
             errors, etext = await smtp.send_message(msg)
-            # errors, res_text = await smtp.send_message(msg)
             if errors:
-                # this happens if mutltiple recipients, and some are accepted & some rejected - see
+                # this happens if mutltiple recipients, with some accepted & some rejected - see
                 # https://aiosmtplib.readthedocs.io/en/latest/reference.html#aiosmtplib.SMTP.sendmail
                 eprint(errors, etext)
 
@@ -127,24 +139,8 @@ async def send_msgs_async(msgs: list, host='localhost', port='25'):
                 await smtp.close()
 
 
-# Generator yielding a list of n randomized messages
-def messages(n: int, r: RandomRecips):
-    for i in range(n):
-        from_email = Address('Test sender', 'test@espops.com')
-        recip = r.rand_recip()
-        msg = EmailMessage()
-        msg['Subject'] = 'A python test message'
-        msg['From'] = from_email
-        msg['To'] = recip
-        msg['X-Bounce-Me'] = '432 4.2.1 bouncing a message from Python smtp code'
-        msg['X-Bounce-Percentage'] = '5'
-        msg.set_content(textTemplate)
-        msg.add_alternative(htmlTemplate, subtype='html')
-        yield msg
-
-
-# f = an iterator (such as a generator function) that will yield the messages
-# per-connection settings such as host and port are passed onwards via kwargs
+# f = an iterator (such as a generator function) that will yield the messages to be sent.
+# per-connection settings such as host and port are passed onwards via kwargs.
 async def send_batch(f: Iterator, messages_per_connection = 100, max_connections = 20, **kwargs):
     this_batch = []
     coroutines = []
@@ -153,29 +149,28 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
         if len(this_batch) >= messages_per_connection:
             coroutines.append(send_msgs_async(this_batch, **kwargs))
             this_batch = []
-
         # when max connections are ready, dispatch them
         if len(coroutines) >= max_connections:
             await asyncio.gather(*coroutines)
             coroutines = []
-
-    # handle remnant, if any
+    # handle any remnant
     if this_batch:
         coroutines.append(send_msgs_async(this_batch, **kwargs))
     if(coroutines):
         await asyncio.gather(*coroutines)
 
+
 # -----------------------------------------------------------------------------
 # Main code
 # -----------------------------------------------------------------------------
-
 if __name__ == "__main__":
     nNames = 200
     print('Getting {} randomized real names from US 1990 census data'.format(nNames))
     startTime = time.time()
-    r = RandomRecips(nNames) # Get some pseudorandom recipients
+    recips = RandomRecips(nNames) # Get some pseudorandom recipients
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
 
+    content = EmailContent()
     # port 25   direct to the sink
     # port 2525 queue_to_sink listener (passes messages through the MTA to show stats etc)
     # port 587  for email submission that will be delivered to real MXs
@@ -189,7 +184,7 @@ if __name__ == "__main__":
     print('Sending {} emails over max {} SMTP connections, {} max messages per connection'
         .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection']))
     startTime = time.time()
-    asyncio.run(send_batch(messages(batch_size, r), **mail_params))
+    asyncio.run(send_batch(messages(batch_size, recips, content), **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
     exit(0)
 
