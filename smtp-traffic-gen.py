@@ -12,6 +12,7 @@ from email.message import EmailMessage
 from email.headerregistry import Address
 from aiosmtplib import SMTP
 from aiosmtplib.errors import SMTPException
+from typing import Iterator
 
 def eprint(*args, **kwargs):
     """
@@ -101,21 +102,18 @@ def stripEnd(h, s):
 #---------
 
 # Send a list of messages via the specified SMTP server
-async def send_msgs_async(msgs: list, **params):
-    mail_params = params.get("mail_params")
-    host = mail_params.get('host', 'localhost')
-    port = mail_params.get('port')
+async def send_msgs_async(msgs: list, host='localhost', port='25'):
     try:
         # Don't attempt SSL from start of connection, but allow STARTTLS (default) with loose certs
         smtp = SMTP(hostname=host, port=port, use_tls=False, validate_certs=False)
         await smtp.connect()
         for msg in msgs:
-            errors = await smtp.send_message(msg)
+            errors, etext = await smtp.send_message(msg)
             # errors, res_text = await smtp.send_message(msg)
             if errors:
                 # this happens if mutltiple recipients, and some are accepted & some rejected - see
                 # https://aiosmtplib.readthedocs.io/en/latest/reference.html#aiosmtplib.SMTP.sendmail
-                eprint(errors)
+                eprint(errors, etext)
 
     except SMTPException as e:
         eprint('{}: {}'.format(type(e), str(e)))
@@ -128,10 +126,10 @@ async def send_msgs_async(msgs: list, **params):
             if smtp.is_connected:
                 await smtp.close()
 
+
 # Generator yielding a list of n randomized messages
 def messages(n: int, r: Recipients):
     for i in range(n):
-         # Prepare message
         from_email = Address('Test sender', 'test@espops.com')
         recip = r.rand_recip()
         msg = EmailMessage()
@@ -144,25 +142,50 @@ def messages(n: int, r: Recipients):
         msg.add_alternative(htmlTemplate, subtype='html')
         yield msg
 
+
+# f = an iterator (such as a generator function) that will yield the messages
+# host and port are passed onwards via kwargs
+async def send_batch(f: Iterator, messages_per_connection = 5, max_connections = 20, **kwargs):
+    this_batch = []
+    coroutines = []
+    for i in f:
+        this_batch.append(i)
+        if len(this_batch) >= messages_per_connection:
+            coroutines.append(send_msgs_async(this_batch, **kwargs))
+            this_batch = []
+
+        # when max connections are ready, dispatch them
+        if len(coroutines) >= max_connections:
+            print('Dispatching {} coroutines'.format(len(coroutines)))
+            await asyncio.gather(*coroutines)
+            coroutines = []
+
+    # handle any remnant
+    if this_batch:
+        coroutines.append(send_msgs_async(this_batch, **kwargs))
+    if(coroutines):
+        print('Finally: dispatching {} coroutines'.format(len(coroutines)))
+        await asyncio.gather(*coroutines)
+
 # -----------------------------------------------------------------------------
 # Main code
 # -----------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    r = Recipients(100)
+    r = Recipients(100) # Get some pseudorandom recipients
 
     # port 25 for direct to the sink
     # port 2525 for queue_to_sink listener
     # port 587  for email submission that will be delivered to MXs
-    mail_params = {'host': 'localhost', 'port': 25}
-    msgs = messages(10, r)
-    co1 = send_msgs_async(msgs, mail_params = mail_params)
-    msgs = messages(10, r)
-    co2 = send_msgs_async(msgs, mail_params = mail_params)
+    mail_params = {
+        'host': 'localhost',
+        'port': 25,
+        'messages_per_connection': 5,
+        'max_connections': 5,
+    }
+    asyncio.run(send_batch(messages(87, r), **mail_params))
+    exit(0)
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(asyncio.gather(co1, co2))
-    loop.close()
 
 exit(0)
 msgPerMinLow = os.getenv('MESSAGES_PER_MINUTE_LOW', '')
