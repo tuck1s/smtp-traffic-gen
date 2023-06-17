@@ -134,13 +134,13 @@ async def send_msgs_async(msgs: list, host='localhost', port='25'):
         try:
             await smtp.quit()
         finally:
-            # Should now be closed as we asked to QUIT, but if it's not, then force closure
+            # Should be closed as we asked to QUIT, but if it's not, then close now
             if smtp.is_connected:
                 await smtp.close()
 
 
 # f = an iterator (such as a generator function) that will yield the messages to be sent.
-# per-connection settings such as host and port are passed onwards via kwargs.
+# Per-connection settings such as host and port are passed onwards via kwargs.
 async def send_batch(f: Iterator, messages_per_connection = 100, max_connections = 20, **kwargs):
     this_batch = []
     coroutines = []
