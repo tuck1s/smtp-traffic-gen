@@ -2,15 +2,19 @@
 #
 # SMTP Traffic Generator
 #
-# Configurable traffic volume per minute
+# Configurable traffic volume - set here:
+daily_volume_target = 1000000
 
-import random, os, sys, time, json, names, asyncio
+import random, os, sys, time, names, asyncio, math
 
 from email.message import EmailMessage
 from email.headerregistry import Address
 from aiosmtplib import SMTP
 from aiosmtplib.errors import SMTPException
 from typing import Iterator
+
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
 #Print to stderr - see https://stackoverflow.com/a/14981125/8545455
 def eprint(*args, **kwargs):
@@ -96,6 +100,37 @@ class RandomRecips:
         return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + suffix + '@' + random.choice(self.domains))
 
 
+# -----------------------------------------------------------------------------
+# Traffic model
+# -----------------------------------------------------------------------------
+
+class Traffic:
+    def __init__(self):
+        # typical triggered email busy hour curve (from 00:00 to 23:00 each day)
+        triggered_volume_per_hour = [6, 4, 3, 3, 3, 2, 2, 4, 5, 10, 19, 27, 29, 28, 28, 26, 25, 24, 22, 19, 16, 14, 11, 8]
+        # normalise, so that the sum of all the hourly volume would be ~ 1.0
+        total = sum(triggered_volume_per_hour)
+        self.normalised_triggered_volume_per_hour = [v / total for v in triggered_volume_per_hour]
+        # set a window for random variability
+        variability = 0.3
+        self.high_v = 1 + variability
+        self.low_v = 1 - variability
+
+    def volume_this_minute(self, t: datetime, daily_vol: float):
+        c = t.astimezone(ZoneInfo('America/New_York'))
+        # interpolate the volume between the value for this hour and the next hour (wrapping around)
+        this_hour_vol = self.normalised_triggered_volume_per_hour[c.hour]
+        next_hour_vol = self.normalised_triggered_volume_per_hour[(c.hour + 1) % 24]
+        assert (c.minute >= 0) and (c.minute <=59)
+        next_hour_fraction = c.minute / 60
+        this_hour_fraction = 1 - next_hour_fraction
+        this_minute_vol = daily_vol * (this_hour_vol * this_hour_fraction + next_hour_vol * next_hour_fraction) / 60
+        # Add random 'dither' to ensure we sometimes send somethiing, even on low daily volume targets
+        vary = random.uniform(self.low_v, self.high_v)
+        this = int(math.floor(this_minute_vol * vary) + random.random())
+        return this
+
+
 # Generator yielding a list of n randomized messages
 def messages(n: int, r: RandomRecips, c: EmailContent):
     for i in range(n):
@@ -114,7 +149,9 @@ def messages(n: int, r: RandomRecips, c: EmailContent):
         yield msg
 
 
-# Send a list of messages via the specified SMTP server
+# -----------------------------------------------------------------------------
+# async SMTP email sending
+# -----------------------------------------------------------------------------
 async def send_msgs_async(msgs: list, host='localhost', port='25'):
     try:
         # Don't attempt SSL from start of connection, but allow STARTTLS (default) with loose certs
@@ -164,6 +201,9 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
 # Main code
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
+    traffic_model = Traffic()
+    batch_size = traffic_model.volume_this_minute(datetime.now(), daily_vol = daily_volume_target)
+
     nNames = 200
     print('Getting {} randomized real names from US 1990 census data'.format(nNames))
     startTime = time.time()
@@ -180,7 +220,6 @@ if __name__ == "__main__":
         'messages_per_connection': 100,
         'max_connections': 20,
     }
-    batch_size = 200
     print('Sending {} emails over max {} SMTP connections, {} max messages per connection'
         .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection']))
     startTime = time.time()
