@@ -225,28 +225,3 @@ if __name__ == "__main__":
     startTime = time.time()
     asyncio.run(send_batch(messages(batch_size, recips, content), **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
-
-exit(0)
-msgPerMinLow = os.getenv('MESSAGES_PER_MINUTE_LOW', '')
-if msgPerMinLow.isnumeric():
-    msgPerMinLow = int(msgPerMinLow)
-    if msgPerMinLow < 0 or msgPerMinLow > 10000:
-        print('Invalid MESSAGES_PER_MINUTE_LOW setting - must be number 1 to 10000')
-        exit(1)
-else:
-    print('Invalid MESSAGES_PER_MINUTE_LOW setting - must be number 1 to 10000')
-    exit(1)
-
-msgPerMinHigh = os.getenv('MESSAGES_PER_MINUTE_HIGH', '')
-if msgPerMinHigh.isnumeric():
-    msgPerMinHigh = int(msgPerMinHigh)
-    if msgPerMinHigh < 0 or msgPerMinHigh > 10000:
-        print('Invalid MESSAGES_PER_MINUTE_HIGH setting - must be number 1 to 10000')
-        exit(1)
-else:
-    print('Invalid MESSAGES_PER_MINUTE_HIGH setting - must be number 1 to 10000')
-    exit(1)
-
-
-# Send every n minutes, between low and high traffic rate
-thisRunSize = int(random.uniform(msgPerMinLow * sendInterval, msgPerMinHigh * sendInterval))
