@@ -216,7 +216,7 @@ if __name__ == "__main__":
     # port 587  for email submission that will be delivered to real MXs
     mail_params = {
         'host': 'localhost',
-        'port': 2525,
+        'port': 25,
         'messages_per_connection': 100,
         'max_connections': 20,
     }
