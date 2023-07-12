@@ -85,7 +85,7 @@ if __name__ == "__main__":
     # port 25   queue_to_sink listener (passes messages through the MTA to show stats etc)
     # port 587  for email submission that will be delivered to real MXs
     mail_params = {
-        'host': 'h4.espops.com', #FIXME: change this to be localhost
+        'host': 'localhost',
         'port': 25,
         'messages_per_connection': 100,
         'max_connections': 20,
@@ -96,5 +96,3 @@ if __name__ == "__main__":
     msgs = rand_messages(100, names, content, bounces, 0.05)
     asyncio.run(send_batch(msgs, **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
-
-    domain, code, enhanced, text = bounces.rand_domain_bounce()
