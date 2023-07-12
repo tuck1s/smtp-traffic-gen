@@ -1,0 +1,9 @@
+x_job,from_name,from_addr,bounce_rate,subject
+Acme,Acme Adventures,alice@acme-adventures.com,0.03,Today's 🔥 sales
+Acme,Acme Adventures,alice@acme-adventures.com,0.03,Big savings 💰
+Acme,Acme Adventures,alice@acme-adventures.com,0.03,Password reset
+Acme,Acme Adventures,alice@acme-adventures.com,0.03,Welcome to our club 🥳
+Acme,Acme Adventures,alice@acme-adventures.com,0.03,🔑 Here's your secure account access code
+Bobs,Bob's Burgers,bob@burgers.com,0.03,subject
+Chaz,Creative Climbing,charlie@creative-climbing.com,0.03,subject
+Dani,Dani's Dance Studios,dani@dance-studios.com,0.03,subject
