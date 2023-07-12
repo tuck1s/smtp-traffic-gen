@@ -1,0 +1,401 @@
+domain,code,enhanced,text,count
+comcast.net,550,5.1.1,<{{to}}> recipient unallocated,16
+comcast.net,550,5.1.1,Not our Customer,474
+comcast.net,550,5.2.0,"<{{to}}> - Account Closed, Please Remove",6
+comcast.net,554,,"resimta-a1p-087336.sys.comcast.net resimta-a1p-087336.sys.comcast.net {{ip4addr}} found on one or more DNSBLs, see https://postmaster.comcast.net/smtp-error-codes.php#BL000001",4
+comcast.net,554,,"resimta-a1p-087336.sys.comcast.net resimta-a1p-087336.sys.comcast.net {{ip4addr}} found on one or more DNSBLs, see https://postmaster.comcast.net/smtp-error-codes.php#BL000011",5
+comcast.net,554,,"resimta-a1p-087336.sys.comcast.net resimta-a1p-087336.sys.comcast.net {{ip4addr}} found on one or more DNSBLs, see https://postmaster.comcast.net/smtp-error-codes.php#BL000100",82
+gmail.com,421,4.3.0,Temporary System Problem. Try again later (3). {{google_uuid}} - gsmtp,17
+gmail.com,421,4.3.0,Temporary System Problem. Try again later (8). {{google_uuid}} - gsmtp,2
+gmail.com,450,4.2.1,"The user you are trying to contact is receiving mail at a rate that prevents additional messages from being delivered. Please resend your message at a later time. If the user is able to receive mail at that time, your message will be delivered. For more information, please visit https://support.google.com/mail/?p=ReceivingRate {{google_uuid}} - gsmtp",26
+gmail.com,451,4.3.0,Mail server temporarily rejected message. {{google_uuid}} - gsmtp,54
+gmail.com,452,4.2.2,The email account that you tried to reach is over quota. Please direct the recipient to https://support.google.com/mail/?p=OverQuotaTemp {{google_uuid}} - gsmtp,4441946
+gmail.com,550,5.1.1,The email account that you tried to reach does not exist. Please try double-checking the recipient's email address for typos or unnecessary spaces. Learn more at https://support.google.com/mail/?p=NoSuchUser {{google_uuid}} - gsmtp,23299
+gmail.com,550,5.2.1,The email account that you tried to reach is disabled. Learn more at https://support.google.com/mail/?p=DisabledUser {{google_uuid}} - gsmtp,467
+gmail.com,550,5.2.1,"The user you are trying to contact is receiving mail at a rate that prevents additional messages from being delivered. For more information, please visit https://support.google.com/mail/?p=ReceivingRatePerm {{google_uuid}} - gsmtp",2
+gmail.com,550,5.7.1,"[{{ip4addr}} 12] Our system has detected that this message is likely unsolicited mail. To reduce the amount of spam sent to Gmail, this message has been blocked. Please visit https://support.google.com/mail/?p=UnsolicitedMessageError for more information. {{google_uuid}} - gsmtp",2728
+gmail.com,550,5.7.1,"[{{ip4addr}} 18] Our system has detected that this message is likely suspicious due to the very low reputation of the sending IP address. To best protect our users from spam, the message has been blocked. Please visit https://support.google.com/mail/answer/188131 for more information. {{google_uuid}} - gsmtp",8261
+gmail.com,550,5.7.1,"[{{ip4addr}} 19] Our system has detected that this message is likely suspicious due to the very low reputation of the sending domain. To best protect our users from spam, the message has been blocked. Please visit https://support.google.com/mail/answer/188131 for more information. {{google_uuid}} - gsmtp",105176
+gmail.com,550,5.7.25,"[{{ip4addr}}] The IP address sending this message does not have a PTR record setup, or the corresponding forward DNS entry does not point to the sending IP. As a policy, Gmail does not accept messages from IPs with missing PTR records. Please visit https://support.google.com/mail/answer/81126#ip-practices for more information. {{google_uuid}} - gsmtp",6
+gmail.com,552,5.2.2,The email account that you tried to reach is over quota and inactive. Please direct the recipient to https://support.google.com/mail/?p=OverQuotaPerm {{google_uuid}} - gsmtp,2856
+gmail.com,553,5.1.3,The recipient address <{{to}} > is not a valid RFC-5321 address. Learn more at https://support.google.com/mail/answer/6596 {{google_uuid}} - gsmtp,2
+gmail.com,553,5.1.3,The recipient address <{{to}}> is not a valid RFC-5321 address. Learn more at https://support.google.com/mail/answer/6596 {{google_uuid}} - gsmtp,87
+gmail.com,555,5.5.2,Syntax error. {{google_uuid}} - gsmtp,2
+yahoo.com.br,421,,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,9
+yahoo.com.br,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,71896
+yahoo.com.br,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3
+yahoo.com.br,552,,"1 Requested mail action aborted, mailbox not found",434
+yahoo.com.br,553,5.7.2,[TSS11] All messages from {{ip4addr}} will be permanently deferred; Retrying will NOT succeed. See https://postmaster.yahooinc.com/error-codes,7088
+yahoo.com.br,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",208
+yahoo.com,421,,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,59
+yahoo.com,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,40752
+yahoo.com,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,18
+yahoo.com,552,,"1 Requested mail action aborted, mailbox not found",3207
+yahoo.com,553,5.7.2,[TSS11] All messages from {{ip4addr}} will be permanently deferred; Retrying will NOT succeed. See https://postmaster.yahooinc.com/error-codes,6788
+yahoo.com,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",3712
+yahoo.com,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,1783
+att.com,550,5.7.0,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},2
+att.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},39308
+hotmail.com,451,4.7.650,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S775) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",53640
+hotmail.com,550,5.5.0,Requested action not taken: mailbox unavailable (S2017062302).,21
+hotmail.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",16313
+hotmail.com,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",269
+hotmail.com,550,5.7.1,"Service unavailable, MailFrom domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8002) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",176
+hotmail.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",5000
+humana.com,550,5.1.1,User Unknown,141
+humana.com,550,5.7.6,DMARC quarantine policy violation - Please contact your email administrator to fix.,39
+humana.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},13019
+miami.edu,550,5.7.0,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},2
+miami.edu,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},12492
+icloud.com,550,5.7.1,Mail from IP {{ip4addr}} was rejected due to listing in Spamhaus SBL. For details please see http://www.spamhaus.org/query/bl?ip={{ip4addr}},10557
+icloud.com,550,5.7.1,Your email was rejected due to having a domain present in the Spamhaus DBL -- see https://www.spamhaus.org/dbl/,175
+icloud.com,554,5.7.1,[CS01] Message rejected due to local policy. Please visit https://support.apple.com/en-us/HT204137,6
+shaw.ca,421,4.1.0,4.4.5 Too many messages for this session,250
+shaw.ca,550,5.1.0,{{verp}} sender rejected,95
+shaw.ca,550,5.1.1,<{{to}}> recipient address rejected,2
+shaw.ca,550,5.1.1,<{{to}}> recipient rejected,1560
+shaw.ca,554,,abc.int.inet cmsmtp Connection refused - {{ip4addr}},8179
+shaw.ca,554,,abc.int.inet cmsmtp Connection refused. {{ip4addr}} has a poor reputation on Cloudmark Sender Intelligence (CSI). Please visit http://csi.cloudmark.com/reset-request/?ip={{ip4addr}} to request a delisting.,13
+shaw.ca,554,,shw-ibgw-4001a.ext.cloudfilter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#BL,6
+shaw.ca,554,,shw-ibgw-4001a.ext.cloudfilter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#BL,64
+shaw.ca,554,,shw-ibgw-4002a.ext.cloudfilter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#BL,6
+shaw.ca,554,,shw-ibgw-4002a.ext.cloudfilter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#BL,43
+shaw.ca,554,,shw-ibgw-4003a.ext.cloudfilter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#BL,3
+shaw.ca,554,,shw-ibgw-4003a.ext.cloudfilter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#BL,59
+shaw.ca,554,,shw-ibgw-4004a.ext.cloudfilter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#BL,6
+shaw.ca,554,,shw-ibgw-4004a.ext.cloudfilter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#BL,58
+cox.net,550,5.1.1,<{{to}}> recipient address rejected,88
+cox.net,552,5.2.0,{{verp}} sender rejected. Refer to Error Codes section at https://www.cox.com/residential/support/email-error-codes.html for more information. AUP#POL,21
+cox.net,554,,cxr-ibgw-5001a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,282
+cox.net,554,,cxr-ibgw-5002a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,273
+cox.net,554,,cxr-ibgw-5003a.stratus.cloudmark.com cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#IPBL00001,2
+cox.net,554,,cxr-ibgw-5003a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,515
+cox.net,554,,cxr-ibgw-5004a.stratus.cloudmark.com cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#IPBL00001,3
+cox.net,554,,cxr-ibgw-5004a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,636
+cox.net,554,,cxr-ibgw-5005a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,988
+cox.net,554,,cxr-ibgw-5006a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,122
+cox.net,554,,cxr-ibgw-5007a.stratus.cloudmark.com cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#IPBL00001,2
+cox.net,554,,cxr-ibgw-5007a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,323
+cox.net,554,,cxr-ibgw-5008a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,476
+cox.net,554,,cxr-ibgw-5009a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,212
+cox.net,554,,cxr-ibgw-5010a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,603
+cox.net,554,,cxr-ibgw-6001a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,450
+cox.net,554,,cxr-ibgw-6002a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,510
+cox.net,554,,cxr-ibgw-6003a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,470
+cox.net,554,,cxr-ibgw-6004a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,275
+cox.net,554,,cxr-ibgw-6005a.stratus.cloudmark.com cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#IPBL00001,2
+cox.net,554,,cxr-ibgw-6005a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,245
+cox.net,554,,cxr-ibgw-6006a.stratus.cloudmark.com cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#IPBL00001,2
+cox.net,554,,cxr-ibgw-6006a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,462
+cox.net,554,,cxr-ibgw-6007a.stratus.cloudmark.com cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#IPBL00001,2
+cox.net,554,,cxr-ibgw-6007a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,280
+cox.net,554,,cxr-ibgw-6008a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,555
+cox.net,554,,cxr-ibgw-6009a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,334
+cox.net,554,,cxr-ibgw-6010a.stratus.cloudmark.com cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#IPBL1000,354
+msn.com,550,5.5.0,Requested action not taken: mailbox unavailable (S2017062302).,52
+msn.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",1368
+msn.com,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",6
+msn.com,550,5.7.1,"Service unavailable, MailFrom domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8002) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",103
+msn.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3140). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",238
+msn.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",6596
+clemson.edu,553,5.3.0,<{{to}}>... 5.5.0 User unknown,32
+clemson.edu,554,,mx1.clemson.edu ESMTP not accepting messages,2745
+clemson.edu,554,,mx2.clemson.edu ESMTP not accepting messages,1419
+clemson.edu,554,,mx3.clemson.edu ESMTP not accepting messages,2261
+clemson.edu,554,,mx7.clemson.edu ESMTP not accepting messages,1002
+bellsouth.net,553,5.3.0,alpd677 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,84
+bellsouth.net,553,5.3.0,alpd678 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,73
+bellsouth.net,553,5.3.0,alpd679 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,78
+bellsouth.net,553,5.3.0,alpd680 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,84
+bellsouth.net,553,5.3.0,alpd681 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,108
+bellsouth.net,553,5.3.0,alpd682 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,85
+bellsouth.net,553,5.3.0,alpd683 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,91
+towson.edu,550,,#5.1.0 Address rejected.,68
+towson.edu,554,,"esa.towson.iphmx.com Your access to this mail system has been rejected due to the sending MTA's poor reputation. If you believe that this failure is in error, please contact the intended recipient via alternate means.",6416
+att.net,553,5.3.0,alpd677 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,96
+att.net,553,5.3.0,alpd678 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,90
+att.net,553,5.3.0,alpd679 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,91
+att.net,553,5.3.0,alpd680 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,90
+att.net,553,5.3.0,alpd681 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,101
+att.net,553,5.3.0,alpd682 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,92
+att.net,553,5.3.0,alpd683 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,99
+att.net,553,5.3.0,alph730 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,140
+msu.edu,550,5.7.0,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},2
+msu.edu,550,5.7.0,https://www.spamhaus.org/sbl/query/SBLCSS,96
+msu.edu,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},5196
+jhu.edu,550,,#5.1.0 Address rejected.,59
+jhu.edu,554,,IronEB1.johnshopkins.edu,663
+jhu.edu,554,,IronEB2.johnshopkins.edu,41
+jhu.edu,554,,IronEB3.johnshopkins.edu,187
+jhu.edu,554,,IronEB4.johnshopkins.edu,177
+jhu.edu,554,,IronEB5.johnshopkins.edu,171
+jhu.edu,554,,IronEB6.johnshopkins.edu,1022
+jhu.edu,554,,IronEB7.johnshopkins.edu,204
+jhu.edu,554,,IronEB8.johnshopkins.edu,106
+jhu.edu,554,,IronEB9.johnshopkins.edu,464
+jhu.edu,554,,IronMTW2.johnshopkins.edu,322
+jhu.edu,554,,IronMTW4.johnshopkins.edu,386
+jhu.edu,554,,IronMTW5.johnshopkins.edu,155
+jhu.edu,554,,IronMTW6.johnshopkins.edu,216
+jhu.edu,554,,IronMTW7.johnshopkins.edu,79
+jhu.edu,554,,IronMTW8.johnshopkins.edu,216
+jhu.edu,554,,IronMTW9.johnshopkins.edu,144
+jhu.edu,554,,ironmtw1.johnshopkins.edu,116
+jhu.edu,554,,ironmtw3.johnshopkins.edu,256
+siriusxm.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},4624
+aol.com,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,1289
+aol.com,552,,"1 Requested mail action aborted, mailbox not found",2200
+aol.com,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",973
+aol.com,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,764
+charter.net,550,5.1.1,<{{to}}> recipient rejected,93
+charter.net,554,,CMGW cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#In-1220,10
+charter.net,554,,CMGW cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit - https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#In-1200,141
+charter.net,554,,impin002.msg.chrl.nc.charter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#In-1220,29
+charter.net,554,,impin002.msg.chrl.nc.charter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit - https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#In-1200,140
+charter.net,554,,impin003.msg.chrl.nc.charter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#In-1220,8
+charter.net,554,,impin003.msg.chrl.nc.charter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit - https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#In-1200,111
+charter.net,554,,impin004.msg.chrl.nc.charter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#In-1220,16
+charter.net,554,,impin004.msg.chrl.nc.charter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit - https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#In-1200,129
+charter.net,554,,impin005.msg.chrl.nc.charter.net cmsmtp Connection Rejected - see http://www.spamhaus.org/query/ip/{{ip4addr}} AUP#In-1220,9
+charter.net,554,,impin018.msg.chrl.nc.charter.net cmsmtp {{ip4addr}} is listed on Cloudmark CSI-Global. Please visit - https://csi.cloudmark.com/en/reset?ip={{ip4addr}} AUP#In-1200,1592
+ymail.com,421,,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,9
+ymail.com,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,5324
+ymail.com,552,,"1 Requested mail action aborted, mailbox not found",58
+ymail.com,553,5.7.2,[TSS11] All messages from {{ip4addr}} will be permanently deferred; Retrying will NOT succeed. See https://postmaster.yahooinc.com/error-codes,1002
+ymail.com,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",29
+ymail.com,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,32
+cox.com,550,5.1.1,User Unknown,73
+cox.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},4048
+hotmail.ca,451,4.7.0,Timeout waiting for client input [abc.def.prod.protection.outlook.com],2
+hotmail.ca,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],59
+hotmail.ca,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",1378
+hotmail.ca,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",2970
+hotmail.ca,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],6
+hotmail.ca,550,5.5.0,Requested action not taken: mailbox unavailable. [abc.def.prod.protection.outlook.com],3854
+hotmail.ca,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",20
+hotmail.ca,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",8
+yahoo.co.jp,421,4.7.1,"[TS03] All messages from {{ip4addr}} will be temporarily deferred; If retrying does not succeed, see https://support.yahoo-net.jp/PccMail/s/article/H000007355",98
+yahoo.co.jp,554,,delivery error: dd Sorry your message to {{to}} cannot be delivered. This account has been disabled or discontinued [#101]. - mta1.mail.abc.yahoo.co.jp,206
+yahoo.co.jp,554,,delivery error: dd Sorry your message to {{to}} cannot be delivered. This account has been disabled or discontinued [#102]. - mta1.mail.abc.yahoo.co.jp,3722
+yahoo.co.jp,554,,delivery error: dd Sorry your message to {{to}} cannot be delivered. This account has been disabled or discontinued [#104]. - mta1.mail.abc.yahoo.co.jp,34
+yahoo.co.jp,554,,delivery error: dd This account has been temporarily suspended. Please try again later. - mta1.mail.abc.yahoo.co.jp,22
+yahoo.co.jp,554,,delivery error: dd This user doesn't have a yahoo.co.jp account ({{to}}) [-101] - mta1.mail.abc.yahoo.co.jp,44
+yahoo.co.jp,554,,delivery error: dd This user doesn't have a yahoo.co.jp account ({{to}}) [-13] - mta1.mail.abc.yahoo.co.jp,94
+yahoo.co.jp,554,,delivery error: dd This user doesn't have a yahoo.co.jp account ({{to}}) [-14] - mta1.mail.abc.yahoo.co.jp,22
+yahoo.co.jp,554,,delivery error: dd This user doesn't have a yahoo.co.jp account ({{to}}) [-16] - mta1.mail.abc.yahoo.co.jp,4
+yahoo.co.jp,554,,delivery error: dd This user doesn't have a yahoo.co.jp account ({{to}}) [-5] - mta1.mail.abc.yahoo.co.jp,3490
+yahoo.co.jp,554,,delivery error: dd This user doesn't have a yahoo.co.jp account ({{to}}) [-6] - mta1.mail.abc.yahoo.co.jp,10
+verizon.com,550,5.1.1,User Unknown,270
+verizon.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},7226
+pacbell.net,553,5.3.0,alpd677 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,82
+pacbell.net,553,5.3.0,alpd678 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,82
+pacbell.net,553,5.3.0,alpd679 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,58
+pacbell.net,553,5.3.0,alpd680 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,44
+pacbell.net,553,5.3.0,alpd681 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,54
+pacbell.net,553,5.3.0,alpd682 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,50
+pacbell.net,553,5.3.0,alpd683 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,72
+earthlink.net,550,5.5.1,Recipient rejected - ELNK001_403 - https://postmaster-earthlink.vadesecure.com/inbound_error_codes/#_403,14
+earthlink.net,550,5.5.1,Recipient rejected - ELNK002_403 - https://postmaster-earthlink.vadesecure.com/inbound_error_codes/#_403,572
+earthlink.net,550,5.7.1,Sender blocked error; [{{ip4addr}}] blocked using Abusix Policy List - https://lookup.abusix.com/search?q=[%!s(MISSING)] - ELNK002_107 - https://postmaster-earthlink.vadesecure.com/inbound_error_codes/#_107,312
+earthlink.net,550,5.7.1,Sender blocked error; [{{ip4addr}}] blocked using Validity Blocklist - https://senderscore.org/blocklist-lookup/ - ELNK002_102 - https://postmaster-earthlink.vadesecure.com/inbound_error_codes/#_102,4656
+sbcglobal.net,553,5.3.0,alpd677 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,28
+sbcglobal.net,553,5.3.0,alpd678 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,36
+sbcglobal.net,553,5.3.0,alpd679 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,23
+sbcglobal.net,553,5.3.0,alpd680 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,23
+sbcglobal.net,553,5.3.0,alpd681 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,25
+sbcglobal.net,553,5.3.0,alpd682 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,24
+sbcglobal.net,553,5.3.0,alpd683 DNSBL:RBL 521< {{ip4addr}} >_is_blocked.For assistance forward this error to abuse_rbl@abuse-att.net,22
+clearchannel.com,550,5.4.1,Recipient address rejected: Access denied. AS(201806281) [abc.def.prod.protection.outlook.com {{datetime_uuid}}],599
+clearchannel.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440)",449
+clearchannel.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",107
+clearchannel.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430)",1020
+clearchannel.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",282
+hotmail.co.jp,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",2195
+vt.edu,550,5.1.1,The email account that you tried to reach does not exist. Please try double-checking the recipient's email address for typos or unnecessary spaces. Learn more at https://support.google.com/mail/?p=NoSuchUser {{google_uuid}} - gsmtp,188
+vt.edu,550,5.2.1,The email account that you tried to reach is disabled. Learn more at https://support.google.com/mail/?p=DisabledUser {{google_uuid}} - gsmtp,9
+vt.edu,550,5.7.1,"[{{ip4addr}} 18] Our system has detected that this message is likely suspicious due to the very low reputation of the sending IP address. To best protect our users from spam, the message has been blocked. Please visit https://support.google.com/mail/answer/188131 for more information. {{google_uuid}} - gsmtp",1328
+vt.edu,550,5.7.1,"[{{ip4addr}} 19] Our system has detected that this message is likely suspicious due to the very low reputation of the sending domain. To best protect our users from spam, the message has been blocked. Please visit https://support.google.com/mail/answer/188131 for more information. {{google_uuid}} - gsmtp",261
+vt.edu,550,5.7.1,[{{ip4addr}}] Messages missing a valid messageId header are not accepted. {{google_uuid}} - gsmtp,255
+hilton.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440)",470
+hilton.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",116
+hilton.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430)",1156
+hilton.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",274
+sprint.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440)",354
+sprint.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",85
+sprint.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430)",1054
+sprint.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",226
+juno.com,550,,Access denied...1311d9e900e91919558d7049f9706170614961d0c4d419117d1541b4d0b494d065353565b494edb41d1df4ed1d71a155895519894115154155192555391125...,3
+juno.com,550,,Access denied...34f598a155a1bcbc9d7de9ccd5fcb145212d192dbdedb8115c7c28b9a5bda5f9bd1d2c2c1da5f93da5e1e1993de1d988bc35bc1135b92828b9bc1118bcf55cd9...,5
+juno.com,550,,"IP {{ip4addr}} in combined.mail.abusix.zone : Access Denied, please see www.abusix.ai",1598
+excite.com,550,5.1.1,The email account that you tried to reach does not exist. Please try double-checking the recipient's email address for typos or unnecessary spaces. Learn more at https://support.google.com/mail/?p=NoSuchUser {{google_uuid}} - gsmtp,1681
+gatech.edu,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440)",361
+gatech.edu,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",91
+gatech.edu,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430)",907
+gatech.edu,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",279
+cbs.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},1606
+mac.com,550,5.1.1,<{{to}}>: user does not exist,2
+mac.com,550,5.7.0,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},32
+mac.com,550,5.7.1,Mail from IP {{ip4addr}} was rejected due to listing in Spamhaus SBL. For details please see http://www.spamhaus.org/query/bl?ip={{ip4addr}},1247
+mac.com,550,5.7.1,Your email was rejected due to having a domain present in the Spamhaus DBL -- see https://www.spamhaus.org/dbl/,192
+mac.com,552,5.2.2,<{{to}}>: user is over quota,5
+mac.com,554,5.7.1,[CS01] Message rejected due to local policy. Please visit https://support.apple.com/en-us/HT204137,25
+coppin.edu,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},1497
+caltech.edu,554,,"esa.caltech.iphmx.com Your access to this mail system has been rejected due to the sending MTA's poor reputation. If you believe that this failure is in error, please contact the intended recipient via alternate means.",1427
+richmond.edu,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},1284
+mlb.com,554,,"Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}} - Your message has been rejected by Major League Baseball due to the origination's poor reputation. If you feel this message was received in error, please contact your administrator.",1261
+umbc.edu,550,5.1.1,<{{to}}>: Recipient address rejected: User unknown in virtual alias table,10
+umbc.edu,554,5.7.1,Service unavailable; Client host [{{ip4addr}}] blocked using b.barracudacentral.org; http://www.barracudanetworks.com/reputation/?pr=1&ip={{ip4addr}},1173
+loyola.edu,550,5.4.1,Recipient address rejected: Access denied. AS(201806281) [abc.def.prod.protection.outlook.com {{datetime_uuid}}],132
+loyola.edu,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440)",177
+loyola.edu,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",31
+loyola.edu,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430)",703
+loyola.edu,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",133
+live.com,451,4.7.650,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S775) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",4268
+live.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",515
+live.com,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",4
+live.com,550,5.7.1,"Service unavailable, MailFrom domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8002) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",11
+live.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3140). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",27
+live.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",484
+outlook.jp,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",994
+outlook.com,451,4.7.650,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S775) [abc.def.prod.outlook.com {{datetime_uuid}}]",16555
+outlook.com,451,4.7.650,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S775) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",12688
+outlook.com,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.outlook.com {{datetime_uuid}}],10
+outlook.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.outlook.com {{datetime_uuid}}]",328
+outlook.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",445
+outlook.com,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.outlook.com {{datetime_uuid}}]",4
+outlook.com,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",11
+outlook.com,550,5.7.1,"Service unavailable, MailFrom domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8002) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",3
+outlook.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3140). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",7
+outlook.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.outlook.com {{datetime_uuid}}]",32
+outlook.com,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",115
+hotmail.co.uk,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],17
+hotmail.co.uk,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",1059
+hotmail.co.uk,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",2584
+hotmail.co.uk,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],116
+hotmail.co.uk,550,5.5.0,Requested action not taken: mailbox unavailable. [abc.def.prod.protection.outlook.com],2
+hotmail.co.uk,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",484
+hotmail.co.uk,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",381
+verizonbusiness.com,550,5.1.1,User Unknown,69
+verizonbusiness.com,554,,Blocked - see https://ipcheck.proofpoint.com/?ip={{ip4addr}},735
+t-mobile.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440)",504
+t-mobile.com,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} AS(1440) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",100
+t-mobile.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430)",626
+t-mobile.com,550,5.7.606,"Access denied, banned sending IP [{{ip4addr}}]. To request removal from this list please visit https://sender.office.com/ and follow the directions. For more information please go to http://go.microsoft.com/fwlink/?LinkID=526655 AS(1430) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",176
+hotmail.fr,451,4.4.3,Temporary server error. Please try again later ATTR18 [abc.def.prod.protection.outlook.com],10
+hotmail.fr,451,4.7.0,Timeout waiting for client input [abc.def.prod.protection.outlook.com],4
+hotmail.fr,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],46
+hotmail.fr,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",896
+hotmail.fr,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",4884
+hotmail.fr,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],176
+hotmail.fr,550,5.5.0,Requested action not taken: mailbox unavailable. [abc.def.prod.protection.outlook.com],6
+hotmail.fr,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",1110
+hotmail.fr,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",50
+hotmail.fr,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",60
+live.jp,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",559
+docomo.ne.jp,504,,Command parameter not implemented,461
+docomo.ne.jp,550,,Unknown user {{to}},15176
+docomo.ne.jp,552,,Too many recipients,1565
+yahoo.co.in,421,,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,31
+yahoo.co.in,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,9672
+yahoo.co.in,552,,"1 Requested mail action aborted, mailbox not found",8
+yahoo.co.in,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",12
+yahoo.co.in,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,4
+hotmail.de,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],20
+hotmail.de,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",1483
+hotmail.de,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",3852
+hotmail.de,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],109
+hotmail.de,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",19
+hotmail.de,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",4
+yahoo.in,421,,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,22
+yahoo.in,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,5364
+yahoo.in,552,,"1 Requested mail action aborted, mailbox not found",11
+yahoo.in,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",18
+yahoo.in,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,2
+i.softbank.jp,550,,Invalid recipient: <{{to}}>,5205
+yahoo.ca,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,42
+yahoo.ca,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,275
+yahoo.ca,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3947
+yahoo.ca,451,,mta1.mail.abc.yahoo.com Resources temporarily unavailable. Please try again later [#4.16.1].,12
+yahoo.ca,552,,"1 Requested mail action aborted, mailbox not found",5
+yahoo.ca,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",2
+yahoo.ca,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,13
+yahoo.ca,554,,delivery error: dd Requested mail action aborted - mta1.mail.abc.yahoo.com,16
+yahoo.ca,554,,"delivery error: dd Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30). - mta1.mail.abc.yahoo.com",22
+yahoo.ca,554,,delivery error: dd This user doesn't have a yahoo.ca account ({{to}}) [-9] - mta1.mail.abc.yahoo.com,155
+yahoo.co.uk,421,,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,4
+yahoo.co.uk,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,5
+yahoo.co.uk,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,715
+yahoo.co.uk,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3619
+yahoo.co.uk,552,,"1 Requested mail action aborted, mailbox not found",38
+yahoo.co.uk,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",22
+yahoo.co.uk,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,59
+yahoo.es,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,2
+yahoo.es,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,339
+yahoo.es,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3540
+yahoo.es,552,,"1 Requested mail action aborted, mailbox not found",9
+yahoo.es,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,6
+yahoo.de,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,4
+yahoo.de,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,119
+yahoo.de,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3569
+yahoo.de,552,,"1 Requested mail action aborted, mailbox not found",7
+yahoo.de,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",3
+yahoo.de,554,,Message not allowed - [PH01] Email not accepted for policy reasons. Please visit https://postmaster.yahooinc.com/error-codes,4
+live.co.uk,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],22
+live.co.uk,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",687
+live.co.uk,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",2569
+live.co.uk,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],96
+live.co.uk,550,5.5.0,Requested action not taken: mailbox unavailable. [abc.def.prod.protection.outlook.com],3
+live.co.uk,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",91
+live.co.uk,550,5.7.1,"Unfortunately, messages from [{{ip4addr}}] weren't sent. Please contact your Internet service provider since part of their network is on our block list (S3150). You can also refer your provider to http://mail.live.com/mail/troubleshooting.aspx#errors. [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",86
+yahoo.it,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,4
+yahoo.it,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to unexpected volume or user complaints - {{ip4addr}}; see https://postmaster.yahooinc.com/error-codes,57
+yahoo.it,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3475
+yahoo.it,554,,"30 Sorry, your message to {{to}} cannot be delivered. This mailbox is disabled (554.30).",2
+hotmail.es,451,4.4.3,Temporary server error. Please try again later ATTR18 [abc.def.prod.protection.outlook.com],10
+hotmail.es,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],8
+hotmail.es,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",917
+hotmail.es,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",2153
+hotmail.es,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],126
+hotmail.es,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",70
+hotmail.es,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",2
+uol.com.br,421,4.7.1,Servico indisponivel: IP blacklistado. Entre em contato com seu ISP (provedor de Internet). Service Unavailable: IP blacklisted [{{ip4addr}}]. Listado na Spamhaus https://www.spamhaus.org/sbl/query/SBLCSS FAQ: https://sac.uol.com.br/ajuda/content/falha-no-envio-de-e-mail-por-bloqueio-de-spamhaus-o-que-fazer,2256
+uol.com.br,550,5.1.1,<{{to}}>: Recipient address rejected: User unknown in relay recipient table,977
+yahoo.gr,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,5
+yahoo.gr,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3141
+live.fr,451,4.4.3,Temporary server error. Please try again later ATTR18 [abc.def.prod.protection.outlook.com],5
+live.fr,451,4.7.500,Server busy. Please try again later from [{{ip4addr}}]. (AS762) [abc.def.prod.protection.outlook.com],14
+live.fr,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S3114) [abc.def.prod.protection.outlook.com]",585
+live.fr,451,4.7.651,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S844) [abc.def.prod.protection.outlook.com]",2261
+live.fr,451,4.7.652,The mail server [{{ip4addr}}] has exceeded the maximum number of connections. (S3115) [abc.def.prod.protection.outlook.com],126
+live.fr,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",96
+live.fr,550,5.7.1,"Service unavailable, Helo domain is listed in Spamhaus. To request removal from this list see https://www.spamhaus.org/query/lookup/ (S8001) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",6
+live.in,451,4.7.650,"The mail server [{{ip4addr}}] has been temporarily rate limited due to IP reputation. For e-mail delivery information, see https://postmaster.live.com (S775) [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",3006
+live.in,550,5.7.1,"Service unavailable, Client host [{{ip4addr}}] blocked using Spamhaus. To request removal from this list see https://www.spamhaus.org/query/ip/{{ip4addr}} (AS3130). [abc.def.prod.protection.outlook.com {{datetime_uuid}}]",5
+yahoo.ie,421,4.7.0,[IPTS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,3
+yahoo.ie,421,4.7.0,[TSS04] Messages from {{ip4addr}} temporarily deferred due to user complaints - {{ip4addr}}; see https://mta1.mail.abc.yahoo.com/kb/postmaster/SLN3434.html,2984
+gmx.de,550,,Requested action not taken: mailbox unavailable Reject due to policy restrictions. For explanation visit https://postmaster.gmx.net/de/case?c=mfd&i=ip&v={{ip4addr}},9
+gmx.de,554,,gmx.net (mxgmx006) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},24
+gmx.de,554,,gmx.net (mxgmx007) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},27
+gmx.de,554,,gmx.net (mxgmx008) Nemesis ESMTP Service not available No SMTP service Bad DNS PTR resource record. For explanation visit https://www.gmx.net/mail/senderguidelines?ip={{ip4addr}}&c=rdns,2
+gmx.de,554,,gmx.net (mxgmx008) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},20
+gmx.de,554,,gmx.net (mxgmx009) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},11
+gmx.de,554,,gmx.net (mxgmx106) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},23
+gmx.de,554,,gmx.net (mxgmx107) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},20
+gmx.de,554,,gmx.net (mxgmx108) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},15
+gmx.de,554,,gmx.net (mxgmx109) Nemesis ESMTP Service not available No SMTP service Bad DNS PTR resource record. For explanation visit https://www.gmx.net/mail/senderguidelines?ip={{ip4addr}}&c=rdns,4
+gmx.de,554,,gmx.net (mxgmx109) Nemesis ESMTP Service not available No SMTP service IP address is block listed. For explanation visit https://postmaster.gmx.net/de/case?c=bl&i=ip&v={{ip4addr}},18
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/19 23:42:06 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/19 23:43:06 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/19 23:44:23 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/19 23:45:24 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:34:05 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:35:06 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",4
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:36:06 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",2
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:36:07 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",3
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:37:06 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:38:10 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:39:10 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/20 07:40:23 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",3
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/21 00:41:23 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",2
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/21 09:03:29 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",2
+btinternet.com,522,,"email sent from {{ip4addr}} found on industry IP blacklists (Spamhaus/Invaluement/ReturnPath) on 2023/06/23 13:55:33 BST. To protect our customers, we use leading industry providers of blacklists to ensure only good senders can send email to us. If believe this is a mistake, please contact them directly as there is nothing our Postmaster will be able to do.",5

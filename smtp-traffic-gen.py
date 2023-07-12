@@ -5,7 +5,9 @@
 # Configurable traffic volume - set here:
 daily_volume_target = 1000000
 
-import random, os, sys, time, names, asyncio, math
+import random, sys, time, asyncio, math
+
+from emailcontent import *
 
 from email.message import EmailMessage
 from email.headerregistry import Address
@@ -19,86 +21,6 @@ from datetime import datetime
 #Print to stderr - see https://stackoverflow.com/a/14981125/8545455
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
-
-
-def stripEnd(h, s):
-    if h.endswith(s):
-        h = h[:-len(s)]
-    return h
-
-# -----------------------------------------------------------------------------------------
-# Configurable email content, recipients etc
-# -----------------------------------------------------------------------------------------
-
-class EmailContent:
-    def __init__(self):
-        self.htmlLink = 'http://example.com/index.html'
-
-        self.content = [
-            {'X-Job': 'Todays_Sales', 'subject': 'Today\'s sales'},
-            {'X-Job': 'Newsletter', 'subject': 'Newsletter'},
-            {'X-Job': 'Last Minute Savings', 'subject': 'Savings'},
-            {'X-Job': 'Password_Reset', 'subject': 'Password reset'},
-            {'X-Job': 'Welcome_Letter', 'subject': 'Welcome letter'},
-            {'X-Job': 'Holiday_Bargains', 'subject': 'Holiday bargains'}
-        ]
-
-        self.htmlTemplate = \
-'''<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>test mail</title>
-  </head>
-  <body>
-    Click <a href="{}">{}</a>
-  </body>
-</html>'''
-
-        self.textTemplate = \
-'''
-Plain text - URL here {}
-'''
-
-    def rand_job_subj_text_html(self):
-        # Contents include a valid http(s) link with custom link name
-        c = random.choice(self.content)
-        text = self.textTemplate.format(self.htmlLink)
-        html = self.htmlTemplate.format(self.htmlLink, self.htmlLink)
-        return c['X-Job'], c['subject'], text, html
-
-
-class RandomRecips:
-    def __init__(self, size):
-        # Prepare a local list of actual random names
-        self.names = []
-        for i in range(size):
-            self.names.append({'first': names.get_first_name(), 'last': names.get_last_name()})
-
-        self.domains = [
-            "not-gmail.com",
-            "not-yahoo.com",
-            "not-yahoo.co.uk",
-            "not-hotmail.com",
-            "not-hotmail.co.uk",
-            "not-aol.com",
-            "not-orange.fr",
-            "not-mail.ru",
-        ]
-
-    def rand_name(self):
-       # Compose a real readable name from the pre-built two-part list l.  Randomise first and last names separately, giving more variety
-       return random.choice(self.names)['first'], random.choice(self.names)['last']
-
-    def rand_recip(self):
-        first, last = self.rand_name()
-        # Most of the time, add a number suffix
-        if random.randint(1, 999) > 200:
-            suffix = str(random.randint(1, 999))
-        else:
-            suffix = ''
-        return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + suffix + '@' + random.choice(self.domains))
-
 
 # -----------------------------------------------------------------------------
 # Traffic model
@@ -201,6 +123,10 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
 # Main code
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
+    bounces = BounceCollection('demo_bounces.csv')
+    domain, code, enhanced, text = bounces.random()
+    print(code)
+    content = EmailContent()
     traffic_model = Traffic()
     batch_size = traffic_model.volume_this_minute(datetime.now(), daily_vol = daily_volume_target)
 
@@ -210,12 +136,11 @@ if __name__ == "__main__":
     recips = RandomRecips(nNames) # Get some pseudorandom recipients
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
 
-    content = EmailContent()
-    # port 25   direct to the sink
-    # port 2525 queue_to_sink listener (passes messages through the MTA to show stats etc)
+    # port 2525 direct to the sink
+    # port 25   queue_to_sink listener (passes messages through the MTA to show stats etc)
     # port 587  for email submission that will be delivered to real MXs
     mail_params = {
-        'host': 'localhost',
+        'host': 'h4.espops.com', #FIXME: change this to be localhost
         'port': 25,
         'messages_per_connection': 100,
         'max_connections': 20,
