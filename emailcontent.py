@@ -129,6 +129,7 @@ class EmailContent:
             {'X-Job': 'Last_Minute_Savings', 'subject': 'Big savings 💰'},
             {'X-Job': 'Password_Reset', 'subject': 'Password reset'},
             {'X-Job': 'Welcome_Letter', 'subject': 'Welcome to our club 🥳'},
+            {'X-Job': 'Enable_2FA', 'subject': '🔑 Here\'s your secure account access code'},
         ]
 
         self.htmlTemplate = \
@@ -184,7 +185,7 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
         # check and mark the message to bounce in the header
         if random.random() <= bounce_probability:
             msg['X-Bounce-Me'] = f'{code} {enhanced} {bounce_text}'
-        # msg['X-Bounce-Percentage'] = '5' # Don't let the sink choose the bounce percentage
+            msg['X-Bounce-Percentage'] = '50' # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
         msg.set_content(body_text)
         msg.add_alternative(body_html, subtype='html')
         return msg
@@ -199,5 +200,5 @@ if __name__ == "__main__":
     names = NamesCollection(nNames) # Get some pseudorandom recipients
     msgs = rand_messages(100, names, content, bounces, 1.0) # 0.05)
     for m in msgs:
-        #print(m['from'],m['to'],m['subject'])
-        print(m['X-Bounce-Me'])
+        print(m['from'],m['to'],m['subject'])
+        # print(m['X-Bounce-Me'])

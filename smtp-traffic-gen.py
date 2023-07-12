@@ -75,7 +75,7 @@ if __name__ == "__main__":
     traffic_model = Traffic()
     batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = daily_volume_target)
 
-    nNames = 200
+    nNames = 100 # should be enough for batches up to a few thousand
     print('Getting {} randomized real names from US 1990 census data'.format(nNames))
     startTime = time.time()
     names = NamesCollection(nNames) # Get some pseudorandom recipients
@@ -90,9 +90,10 @@ if __name__ == "__main__":
         'messages_per_connection': 100,
         'max_connections': 20,
     }
+
+    startTime = time.time()
+    msgs = rand_messages(batch_size, names, content, bounces, 0.03) # initial bounce of x%
     print('Sending {} emails over max {} SMTP connections, {} max messages per connection'
         .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection']))
-    startTime = time.time()
-    msgs = rand_messages(100, names, content, bounces, 0.05)
     asyncio.run(send_batch(msgs, **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
