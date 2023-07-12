@@ -93,7 +93,8 @@ if __name__ == "__main__":
     print('Sending {} emails over max {} SMTP connections, {} max messages per connection'
         .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection']))
     startTime = time.time()
-    asyncio.run(send_batch(rand_messages(batch_size, names, content), **mail_params))
+    msgs = rand_messages(100, names, content, bounces, 0.05)
+    asyncio.run(send_batch(msgs, **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
 
     domain, code, enhanced, text = bounces.rand_domain_bounce()
