@@ -96,4 +96,4 @@ if __name__ == "__main__":
     asyncio.run(send_batch(rand_messages(batch_size, names, content), **mail_params))
     print('Done in {0:.1f}s.'.format(time.time() - startTime))
 
-    domain, code, enhanced, text = bounces.random()
+    domain, code, enhanced, text = bounces.rand_domain_bounce()
