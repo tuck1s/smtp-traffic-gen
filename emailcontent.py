@@ -1,6 +1,32 @@
+#!/usr/bin/env python3
 
 import random, names, csv
 from email.headerregistry import Address
+from email.message import EmailMessage
+
+
+# -----------------------------------------------------------------------------------------
+# First and last names from 1990 US Census data
+# -----------------------------------------------------------------------------------------
+class NamesCollection:
+    def __init__(self, size):
+        # Prepare a local list of actual random names
+        self.names = []
+        for i in range(size):
+            self.names.append({'first': names.get_first_name(), 'last': names.get_last_name()})
+
+    def rand_name(self):
+       # Compose a real readable name from the pre-built two-part list l.  Randomise first and last names separately, giving more variety
+       return random.choice(self.names)['first'], random.choice(self.names)['last']
+
+    def rand_recip(self, domain):
+        first, last = self.rand_name()
+        # Most of the time, add a number suffix
+        if random.randint(1, 999) > 200:
+            suffix = str(random.randint(1, 999))
+        else:
+            suffix = ''
+        return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + suffix + '@' + domain)
 
 # -----------------------------------------------------------------------------------------
 # Realistic bounce codes
@@ -31,8 +57,7 @@ class BounceCollection:
                     w = 30/total_domains
                 self.weights.append(w)
 
-    # Record DSN diags as a grouped, nested structure in the form
-    # { domain { code { enhanced { text : count }}}}
+    # Record DSN diags as a grouped, nested structure in the form [ domain ( ..) ]
     def add(self, domain, code, enhanced, text):
         if not domain in self.domain_codes:
             self.domain_codes[domain] = []
@@ -44,8 +69,7 @@ class BounceCollection:
         domain = dlist[0]
         codes = self.domain_codes[domain] # note this returns a list, so have to dereference it
         code, enhanced, text = random.choice(codes) # pick from the codes with an even distribution
-        # Fill in placeholders, if any
-
+        # Fill in placeholders
         placeholders = [
             ('{{verp}}', rand_verp),
             ('{{ip4addr}}', rand_ip4addr),
@@ -74,19 +98,18 @@ def rand_google_uuid():
     return 'foo'
 
 # -----------------------------------------------------------------------------------------
-# Configurable email content, recipients, etc
+# Configurable email content
 # -----------------------------------------------------------------------------------------
 class EmailContent:
     def __init__(self):
         self.htmlLink = 'http://example.com/index.html'
 
         self.content = [
-            {'X-Job': 'Todays_Sales', 'subject': 'Today\'s sales'},
-            {'X-Job': 'Newsletter', 'subject': 'Newsletter'},
-            {'X-Job': 'Last_Minute_Savings', 'subject': 'Savings'},
+            {'X-Job': 'Todays_Sales', 'subject': 'Today\'s 🔥 sales'},
+            {'X-Job': 'Newsletter', 'subject': 'Today\'s Newsletter'},
+            {'X-Job': 'Last_Minute_Savings', 'subject': 'Big savings 💰'},
             {'X-Job': 'Password_Reset', 'subject': 'Password reset'},
-            {'X-Job': 'Welcome_Letter', 'subject': 'Welcome letter'},
-            {'X-Job': 'Holiday_Bargains', 'subject': 'Holiday bargains'}
+            {'X-Job': 'Welcome_Letter', 'subject': 'Welcome to our club 🥳'},
         ]
 
         self.htmlTemplate = \
@@ -100,57 +123,60 @@ class EmailContent:
     Click <a href="{}">{}</a>
   </body>
 </html>'''
-
 #TODO: add placeholder text and images
+        self.textTemplate = 'Plain text - URL here {}'
 
-        self.textTemplate = \
-'''
-Plain text - URL here {}
-'''
         self.sender = [
-            {'from': 'alice@acme-adventures.com', 'name': 'Acme Adventures'},
-            {'from': 'bob@burgers.com', 'name': 'Bob\'s Burgers'},
-            {'from': 'charlie@creative-climbing.com', 'name': 'Creative Climbing'},
-            {'from': 'danii@dance-studios.com', 'name': 'Dance Studios'},
+            {'shortname': 'Acme', 'from': 'alice@acme-adventures.com', 'name': 'Acme Adventures'},
+            {'shortname': 'Bobs', 'from': 'bob@burgers.com', 'name': 'Bob\'s Burgers'},
+            {'shortname': 'Chaz', 'from': 'charlie@creative-climbing.com', 'name': 'Creative Climbing'},
+            {'shortname': 'Dani', 'from': 'dani@dance-studios.com', 'name': 'Dani\'s Dance Studios'},
         ]
 
-
-    def rand_job_subj_text_html(self):
-        # Contents include a valid http(s) link with custom link name
+    # generate a bunch of random related things for the email
+    def rand_job_subj_text_html_from(self):
+        s = random.choice(self.sender)
+        from_address = Address(s['name'], s['from'])
+        # Contents include a valid link
         c = random.choice(self.content)
         text = self.textTemplate.format(self.htmlLink)
         html = self.htmlTemplate.format(self.htmlLink, self.htmlLink)
-        return c['X-Job'], c['subject'], text, html
+        job = s['shortname'] + '_' + c['X-Job']
+        return job, c['subject'], text, html, from_address
 
 
-class RandomRecips:
-    def __init__(self, size):
-        # Prepare a local list of actual random names
-        self.names = []
-        for i in range(size):
-            self.names.append({'first': names.get_first_name(), 'last': names.get_last_name()})
+# Generator yielding a list of n randomized messages
+def rand_messages(n: int, names: NamesCollection, content: EmailContent, bounces: BounceCollection, bounce_probability: float):
+    for i in range(n):
+        yield rand_message(names, content, bounces, bounce_probability)
 
-        self.domains = [
-            "not-gmail.com",
-            "not-yahoo.com",
-            "not-yahoo.co.uk",
-            "not-hotmail.com",
-            "not-hotmail.co.uk",
-            "not-aol.com",
-            "not-orange.fr",
-            "not-mail.ru",
-        ]
 
-    def rand_name(self):
-       # Compose a real readable name from the pre-built two-part list l.  Randomise first and last names separately, giving more variety
-       return random.choice(self.names)['first'], random.choice(self.names)['last']
+def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceCollection, bounce_probability: float):
+        recip_domain, code, enhanced, bounce_text = bounces.random()
+        recip_addr = names.rand_recip(recip_domain)
+        msg = EmailMessage()
+        x_job, subject, body_text, body_html, from_addr = content.rand_job_subj_text_html_from()
+        msg['Subject'] = subject
+        msg['From'] = from_addr
+        msg['To'] = recip_addr
+        msg['X-Job'] = x_job
+        # check and mark the message to bounce in the header
+        if random.random() <= bounce_probability:
+            msg['X-Bounce-Me'] = f'{code} {enhanced} {bounce_text}'
+        # msg['X-Bounce-Percentage'] = '5' # Now choose the bounce percentage in the client
+        msg.set_content(body_text)
+        msg.add_alternative(body_html, subtype='html')
+        return msg
 
-    def rand_recip(self):
-        first, last = self.rand_name()
-        # Most of the time, add a number suffix
-        if random.randint(1, 999) > 200:
-            suffix = str(random.randint(1, 999))
-        else:
-            suffix = ''
-        return Address(first + ' ' + last, str.lower(first) + '.' + str.lower(last) + suffix + '@' + random.choice(self.domains))
-
+# -----------------------------------------------------------------------------
+# Main code - for testing
+# -----------------------------------------------------------------------------
+if __name__ == "__main__":
+    bounces = BounceCollection('demo_bounces.csv')
+    content = EmailContent()
+    nNames = 50
+    names = NamesCollection(nNames) # Get some pseudorandom recipients
+    msgs = rand_messages(100, names, content, bounces, 1.0) # 0.05)
+    for m in msgs:
+        #print(m['from'],m['to'],m['subject'])
+        print(m['X-Bounce-Me'])
