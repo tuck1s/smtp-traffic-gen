@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import random, names, csv
+import random, names, csv, datetime, string
 from email.headerregistry import Address
 from email.message import EmailMessage
-
 
 # -----------------------------------------------------------------------------------------
 # First and last names from 1990 US Census data
@@ -76,6 +75,7 @@ class BounceCollection:
             ('{{to}}', bounce_to),
             ('{{verp}}', bounce_verp),
             ('{{ip4addr}}', bounce_ip4addr),
+            ('{{datetime}}', bounce_datetime),
             ('{{datetime_uuid}}', bounce_datetime_uuid),
             ('{{google_uuid}}', bounce_google_uuid),
         ]
@@ -86,17 +86,35 @@ class BounceCollection:
 def bounce_to(t):
     return t
 
+# e.g. <corrina244443-taylordavidg=shaw.ca@promonearme.com>
 def bounce_verp(t):
     return 'foo'
 
 def bounce_ip4addr(t):
     return '{}.{}.{}.{}'.format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
-def bounce_datetime_uuid(t):
-    return 'foo'
+# e.g. 2023-06-13T23:35:18.453Z
+def bounce_datetime(t):
+    return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
+# e.g. 08DB6BB234EB8972
+def bounce_datetime_uuid(t):
+    n = random.randint(0, 16**15)
+    return f'0{n:15X}'
+
+# e.g. b5-20020a1709062b4500b0096f6a9105absi8004221ejg.48, zm10-20020a170906994a00b009745adb3c21si7135862ejb.428
 def bounce_google_uuid(t):
-    return 'foo'
+    n = random.randint(0, 16**15)
+    n2 = random.randint(0, 16**15)
+    s = rand_ascii_letter() + rand_digit() + '-' + f'0{n:15x}' + rand_ascii_letter() + rand_ascii_letter() + rand_ascii_letter() + f'0{n2:15x}' +\
+        rand_ascii_letter() + rand_ascii_letter() + rand_ascii_letter() + '.' + str(random.randint(0,999))
+    return s
+
+def rand_ascii_letter():
+    return random.choice(string.ascii_lowercase)
+
+def rand_digit():
+    return random.choice(string.digits)
 
 # -----------------------------------------------------------------------------------------
 # Configurable email content
