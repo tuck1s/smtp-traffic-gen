@@ -87,8 +87,11 @@ def bounce_to(t):
     return t
 
 # e.g. <corrina244443-taylordavidg=shaw.ca@promonearme.com>
+# wikipedians-owner+bob=example.org@example.net
 def bounce_verp(t):
-    return 'foo'
+    localpart, domainpart = t.split('@')
+    v = '<mylist123-owner+' + localpart + '=' + domainpart + '@example.com>'
+    return v
 
 def bounce_ip4addr(t):
     return '{}.{}.{}.{}'.format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
