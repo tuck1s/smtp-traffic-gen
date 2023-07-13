@@ -120,17 +120,16 @@ def rand_digit():
 # Configurable email content
 # -----------------------------------------------------------------------------------------
 class EmailContent:
-    def __init__(self):
-        self.htmlLink = 'http://example.com/index.html'
+    def __init__(self, sender_subjects_filename):
+        self.content = []
+        with open(sender_subjects_filename) as sender_subjects_file:
+            # Ignore any extra fields such as count
+            r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'subject'])
+            for row_dict in r:
+                if row_dict['x_job'] != 'x_job': # skip the header row
+                    self.add(row_dict)
 
-        self.content = [
-            {'X-Job': 'Todays_Sales', 'subject': 'Today\'s 🔥 sales'},
-            {'X-Job': 'Newsletter', 'subject': 'Today\'s Newsletter'},
-            {'X-Job': 'Last_Minute_Savings', 'subject': 'Big savings 💰'},
-            {'X-Job': 'Password_Reset', 'subject': 'Password reset'},
-            {'X-Job': 'Welcome_Letter', 'subject': 'Welcome to our club 🥳'},
-            {'X-Job': 'Enable_2FA', 'subject': '🔑 Here\'s your secure account access code'},
-        ]
+        self.htmlLink = 'http://example.com/index.html'
 
         self.htmlTemplate = \
 '''<!DOCTYPE html>
@@ -146,23 +145,18 @@ class EmailContent:
 #TODO: add placeholder text and images
         self.textTemplate = 'Plain text - URL here {}'
 
-        self.sender = [
-            {'shortname': 'Acme', 'from': 'alice@acme-adventures.com', 'name': 'Acme Adventures'},
-            {'shortname': 'Bobs', 'from': 'bob@burgers.com', 'name': 'Bob\'s Burgers'},
-            {'shortname': 'Chaz', 'from': 'charlie@creative-climbing.com', 'name': 'Creative Climbing'},
-            {'shortname': 'Dani', 'from': 'dani@dance-studios.com', 'name': 'Dani\'s Dance Studios'},
-        ]
+    def add(self, sender_subject):
+        self.content.append(sender_subject)
 
     # generate a bunch of random related things for the email
     def rand_job_subj_text_html_from(self):
-        s = random.choice(self.sender)
-        from_address = Address(s['name'], s['from'])
+        s = random.choice(self.content)
+        from_address = Address(s['from_name'], s['from_addr'])
         # Contents include a valid link
-        c = random.choice(self.content)
         text = self.textTemplate.format(self.htmlLink)
         html = self.htmlTemplate.format(self.htmlLink, self.htmlLink)
-        job = s['shortname'] + '_' + c['X-Job']
-        return job, c['subject'], text, html, from_address
+        job = s['x_job']
+        return job, s['subject'], text, html, from_address
 
 
 # Generator yielding a list of n randomized messages
@@ -195,7 +189,7 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     bounces = BounceCollection('demo_bounces.csv')
-    content = EmailContent()
+    content = EmailContent('sender_subjects.csv')
     nNames = 50
     names = NamesCollection(nNames) # Get some pseudorandom recipients
     msgs = rand_messages(100, names, content, bounces, 1.0) # 0.05)

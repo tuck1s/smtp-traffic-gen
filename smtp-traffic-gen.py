@@ -71,7 +71,7 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     bounces = BounceCollection('demo_bounces.csv')
-    content = EmailContent()
+    content = EmailContent('sender_subjects.csv')
     traffic_model = Traffic()
     batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = daily_volume_target)
 
