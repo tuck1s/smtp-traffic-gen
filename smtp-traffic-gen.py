@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 #
 # SMTP Traffic Generator
-#
-# Configurable traffic volume - set here:
-daily_volume_target = 40000
 
 import sys, time, asyncio, datetime, argparse
 from aiosmtplib import SMTP
@@ -74,11 +71,12 @@ if __name__ == "__main__":
         description='Generate SMTP traffic with headers to cause some messages to bounce back from the sink')
     parser.add_argument('--bounces', type=argparse.FileType('r'), required=True, help='bounce configuration file (csv)')
     parser.add_argument('--sender-subjects', type=argparse.FileType('r'), required=True, help='senders and subjects configuration file (csv)')
+    parser.add_argument('--daily-volume', type=int, required=True, help='daily volume')
     args = parser.parse_args()
     bounces = BounceCollection(args.bounces)
     content = EmailContent(args.sender_subjects)
     traffic_model = Traffic()
-    batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = daily_volume_target)
+    batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = args.daily_volume)
 
     nNames = 100 # should be enough for batches up to a few thousand
     print('Getting {} randomized real names from US 1990 census data'.format(nNames))
@@ -97,7 +95,7 @@ if __name__ == "__main__":
     }
 
     startTime = time.time()
-    msgs = rand_messages(batch_size, names, content, bounces, 0.03) # initial bounce of x%
+    msgs = rand_messages(batch_size, names, content, bounces)
     print('Sending {} emails over max {} SMTP connections, {} max messages per connection'
         .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection']))
     asyncio.run(send_batch(msgs, **mail_params))

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random, names, csv, datetime, string
+import random, names, csv, datetime, string, io
 from email.headerregistry import Address
 from email.message import EmailMessage
 
@@ -31,7 +31,7 @@ class NamesCollection:
 # Realistic bounce codes
 # -----------------------------------------------------------------------------------------
 class BounceCollection:
-    def __init__(self, bounce_file):
+    def __init__(self, bounce_file: io.BufferedReader):
         self.domain_codes = {}
         self.domains = []
         self.weights = []
@@ -121,7 +121,7 @@ def rand_digit():
 # Configurable email content
 # -----------------------------------------------------------------------------------------
 class EmailContent:
-    def __init__(self, sender_subjects_file):
+    def __init__(self, sender_subjects_file: io.BufferedReader):
         self.content = []
         # Ignore any extra fields such as count
         r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'subject'])
@@ -155,31 +155,29 @@ class EmailContent:
         # Contents include a valid link
         text = self.textTemplate.format(self.htmlLink)
         html = self.htmlTemplate.format(self.htmlLink, self.htmlLink)
-        job = s['x_job']
-        return job, s['subject'], text, html, from_address
+        return s['x_job'], s['subject'], text, html, from_address, float(s['bounce_rate'])
 
 
 # Generator yielding a list of n randomized messages
-def rand_messages(n: int, names: NamesCollection, content: EmailContent, bounces: BounceCollection, bounce_probability: float):
+def rand_messages(n: int, names: NamesCollection, content: EmailContent, bounces: BounceCollection):
     for i in range(n):
-        yield rand_message(names, content, bounces, bounce_probability)
+        yield rand_message(names, content, bounces)
 
 
-def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceCollection, bounce_probability: float):
+def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceCollection):
         recip_domain = bounces.rand_domain()
         recip_addr = names.rand_recip(recip_domain)
-        code, enhanced, bounce_text = bounces.rand_bounce(recip_domain, recip_addr.username)
-
         msg = EmailMessage()
-        x_job, subject, body_text, body_html, from_addr = content.rand_job_subj_text_html_from()
+        x_job, subject, body_text, body_html, from_addr, bounce_rate = content.rand_job_subj_text_html_from()
         msg['Subject'] = subject
         msg['From'] = from_addr
         msg['To'] = recip_addr
         msg['X-Job'] = x_job
         # check and mark the message to bounce in the header
-        if random.random() <= bounce_probability:
+        if random.random() <= bounce_rate:
+            code, enhanced, bounce_text = bounces.rand_bounce(recip_domain, recip_addr.username)
             msg['X-Bounce-Me'] = f'{code} {enhanced} {bounce_text}'
-            msg['X-Bounce-Percentage'] = '50' # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
+            msg['X-Bounce-Percentage'] = '40' # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
         msg.set_content(body_text)
         msg.add_alternative(body_html, subtype='html')
         return msg
@@ -188,11 +186,12 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
 # Main code - for testing
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
-    bounces = BounceCollection('demo_bounces.csv')
-    content = EmailContent('sender_subjects.csv')
-    nNames = 50
-    names = NamesCollection(nNames) # Get some pseudorandom recipients
-    msgs = rand_messages(100, names, content, bounces, 1.0) # 0.05)
-    for m in msgs:
-        print(m['from'],m['to'],m['subject'])
-        # print(m['X-Bounce-Me'])
+    with open('demo_bounces.csv', 'r') as bounce_file:
+        bounces = BounceCollection(bounce_file)
+        with open('sender_subjects.csv') as sender_subjects_file:
+            content = EmailContent(sender_subjects_file)
+            nNames = 50
+            names = NamesCollection(nNames) # Get some pseudorandom recipients
+            msgs = rand_messages(100, names, content, bounces)
+            for m in msgs:
+                print(m['from'],m['to'],m['subject'])

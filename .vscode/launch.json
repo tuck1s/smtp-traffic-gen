@@ -11,7 +11,9 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": [ "--bounces", "demo_bounces.csv", "--sender-subjects", "sender_subjects.csv"]
+            "args": [ "--bounces", "demo_bounces.csv",
+                "--sender-subjects", "sender_subjects.csv",
+                "--daily-volume", "40000"]
         }
     ]
 }
