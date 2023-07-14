@@ -3,7 +3,7 @@
 # SMTP Traffic Generator
 #
 # Configurable traffic volume - set here:
-daily_volume_target = 1000000
+daily_volume_target = 40000
 
 import sys, time, asyncio, datetime
 from aiosmtplib import SMTP
