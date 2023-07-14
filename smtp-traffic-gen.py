@@ -5,7 +5,7 @@
 # Configurable traffic volume - set here:
 daily_volume_target = 40000
 
-import sys, time, asyncio, datetime
+import sys, time, asyncio, datetime, argparse
 from aiosmtplib import SMTP
 from aiosmtplib.errors import SMTPException
 from typing import Iterator
@@ -70,8 +70,13 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
 # Main code
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
-    bounces = BounceCollection('demo_bounces.csv')
-    content = EmailContent('sender_subjects.csv')
+    parser = argparse.ArgumentParser(
+        description='Generate SMTP traffic with headers to cause some messages to bounce back from the sink')
+    parser.add_argument('--bounces', type=argparse.FileType('r'), required=True, help='bounce configuration file (csv)')
+    parser.add_argument('--sender-subjects', type=argparse.FileType('r'), required=True, help='senders and subjects configuration file (csv)')
+    args = parser.parse_args()
+    bounces = BounceCollection(args.bounces)
+    content = EmailContent(args.sender_subjects)
     traffic_model = Traffic()
     batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = daily_volume_target)
 

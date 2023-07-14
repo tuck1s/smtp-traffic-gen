@@ -10,7 +10,8 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "args": [ "--bounces", "demo_bounces.csv", "--sender-subjects", "sender_subjects.csv"]
         }
     ]
 }

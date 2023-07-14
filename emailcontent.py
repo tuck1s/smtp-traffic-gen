@@ -31,30 +31,28 @@ class NamesCollection:
 # Realistic bounce codes
 # -----------------------------------------------------------------------------------------
 class BounceCollection:
-    def __init__(self, bounce_filename):
+    def __init__(self, bounce_file):
         self.domain_codes = {}
         self.domains = []
         self.weights = []
+        r = csv.DictReader(bounce_file, fieldnames=['domain', 'code', 'enhanced', 'text']) # Ignore any extra fields such as count
+        for row_dict in r:
+            if row_dict['domain'] != 'domain': # skip the header row
+                self.add(row_dict['domain'], row_dict['code'], row_dict['enhanced'], row_dict['text'])
 
-        with open(bounce_filename) as bounce_file:
-            r = csv.DictReader(bounce_file, fieldnames=['domain', 'code', 'enhanced', 'text']) # Ignore any extra fields such as count
-            for row_dict in r:
-                if row_dict['domain'] != 'domain': # skip the header row
-                    self.add(row_dict['domain'], row_dict['code'], row_dict['enhanced'], row_dict['text'])
-
-            total_domains = len(self.domain_codes)
-            msft_domains = ['hotmail.com', 'msn.com', 'hotmail.co.jp', 'live.com', 'outlook.com', 'hotmail.co.uk', 'hotmail.fr', 'live.jp', 'hotmail.de', 
-                            'live.co.uk', 'hotmail.es', 'live.fr', 'live.in']
-            # give more weight to some domains
-            for d, v in self.domain_codes.items():
-                self.domains.append(d)
-                if d == 'gmail.com':
-                    w = 40
-                elif d in msft_domains:
-                    w = 30/len(msft_domains)
-                else:
-                    w = 30/total_domains
-                self.weights.append(w)
+        total_domains = len(self.domain_codes)
+        msft_domains = ['hotmail.com', 'msn.com', 'hotmail.co.jp', 'live.com', 'outlook.com', 'hotmail.co.uk', 'hotmail.fr', 'live.jp', 'hotmail.de', 
+                        'live.co.uk', 'hotmail.es', 'live.fr', 'live.in']
+        # give more weight to some domains
+        for d, v in self.domain_codes.items():
+            self.domains.append(d)
+            if d == 'gmail.com':
+                w = 40
+            elif d in msft_domains:
+                w = 30/len(msft_domains)
+            else:
+                w = 30/total_domains
+            self.weights.append(w)
 
     # Record DSN diags as a grouped, nested structure in the form [ domain ( ..) ]
     def add(self, domain, code, enhanced, text):
@@ -123,14 +121,13 @@ def rand_digit():
 # Configurable email content
 # -----------------------------------------------------------------------------------------
 class EmailContent:
-    def __init__(self, sender_subjects_filename):
+    def __init__(self, sender_subjects_file):
         self.content = []
-        with open(sender_subjects_filename) as sender_subjects_file:
-            # Ignore any extra fields such as count
-            r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'subject'])
-            for row_dict in r:
-                if row_dict['x_job'] != 'x_job': # skip the header row
-                    self.add(row_dict)
+        # Ignore any extra fields such as count
+        r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'subject'])
+        for row_dict in r:
+            if row_dict['x_job'] != 'x_job': # skip the header row
+                self.add(row_dict)
 
         self.htmlLink = 'http://example.com/index.html'
 

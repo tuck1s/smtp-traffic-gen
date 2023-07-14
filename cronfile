@@ -1,4 +1,4 @@
 # Add the following lines using crontab -e
 
 # Adjust the path to ensure pipenv can be found
-* * * * * cd /home/ubuntu/smtp-traffic-gen/ && /home/ubuntu/.local/bin/pipenv run ./smtp-traffic-gen.py 2>./errs.out 1>./std.out
+* * * * * cd /home/ubuntu/smtp-traffic-gen/ && /home/ubuntu/.local/bin/pipenv run ./smtp-traffic-gen.py --bounces demo_bounces.csv --sender-subjects sender_subjects.csv 2>./errs.out 1>./std.out
