@@ -41,17 +41,21 @@ class BounceCollection:
                 self.add(row_dict['domain'], row_dict['code'], row_dict['enhanced'], row_dict['text'])
 
         total_domains = len(self.domain_codes)
-        msft_domains = ['hotmail.com', 'msn.com', 'hotmail.co.jp', 'live.com', 'outlook.com', 'hotmail.co.uk', 'hotmail.fr', 'live.jp', 'hotmail.de', 
+        msft_domains = ['hotmail.com', 'msn.com', 'hotmail.co.jp', 'live.com', 'outlook.com', 'hotmail.co.uk', 'hotmail.fr', 'live.jp', 'hotmail.de',
                         'live.co.uk', 'hotmail.es', 'live.fr', 'live.in']
-        # give more weight to some domains
+        yahoo_domains = ['yahoo.ca', 'yahoo.co.in', 'yahoo.co.jp', 'yahoo.co.uk', 'yahoo.com', 'yahoo.com.br', 'yahoo.de', 'yahoo.es', 'yahoo.gr', 
+                         'yahoo.ie', 'yahoo.in', 'yahoo.it']
+        # give more weight to some domains. Note the numerators should add up to 100
         for d, v in self.domain_codes.items():
             self.domains.append(d)
             if d == 'gmail.com':
                 w = 40
             elif d in msft_domains:
                 w = 30/len(msft_domains)
+            elif d in yahoo_domains:
+                w = 20/len(msft_domains)
             else:
-                w = 30/total_domains
+                w = 10/total_domains
             self.weights.append(w)
 
     # Record DSN diags as a grouped, nested structure in the form [ domain ( ..) ]
