@@ -31,7 +31,8 @@ class NamesCollection:
 # Realistic bounce codes
 # -----------------------------------------------------------------------------------------
 class BounceCollection:
-    def __init__(self, bounce_file: io.BufferedReader):
+    def __init__(self, bounce_file: io.BufferedReader, yahoo_backoff: float):
+        self.yahoo_backoff = yahoo_backoff # Special bounce rate for these domains
         self.domain_codes = {}
         self.domains = []
         self.weights = []
@@ -40,23 +41,19 @@ class BounceCollection:
             if row_dict['domain'] != 'domain': # skip the header row
                 self.add(row_dict['domain'], row_dict['code'], row_dict['enhanced'], row_dict['text'])
 
-        total_domains = len(self.domain_codes)
-        msft_domains = ['hotmail.com', 'msn.com', 'hotmail.co.jp', 'live.com', 'outlook.com', 'hotmail.co.uk', 'hotmail.fr', 'live.jp', 'hotmail.de',
-                        'live.co.uk', 'hotmail.es', 'live.fr', 'live.in']
-        yahoo_domains = ['yahoo.ca', 'yahoo.co.in', 'yahoo.co.jp', 'yahoo.co.uk', 'yahoo.com', 'yahoo.com.br', 'yahoo.de', 'yahoo.es', 'yahoo.gr', 
-                         'yahoo.ie', 'yahoo.in', 'yahoo.it']
         # give more weight to some domains. Note the numerators should add up to 100
         for d, v in self.domain_codes.items():
             self.domains.append(d)
-            if d == 'gmail.com':
-                w = 40
-            elif d in msft_domains:
-                w = 30/len(msft_domains)
-            elif d in yahoo_domains:
-                w = 20/len(msft_domains)
-            else:
-                w = 10/total_domains
-            self.weights.append(w)
+            weights = [
+                (self.is_google, 40),
+                (self.is_microsoft, 30),
+                (self.is_yahoo, 20),
+                (self.is_others, 10)]
+            for is_test, weight in weights:
+                t, n = is_test(d)
+                if t:
+                    self.weights.append(weight/n)
+                    break
 
     # Record DSN diags as a grouped, nested structure in the form [ domain ( ..) ]
     def add(self, domain, code, enhanced, text):
@@ -74,52 +71,72 @@ class BounceCollection:
         code, enhanced, text = random.choice(codes) # pick from the codes with an even distribution
         # Fill in placeholders
         placeholders = [
-            ('{{to}}', bounce_to),
-            ('{{verp}}', bounce_verp),
-            ('{{ip4addr}}', bounce_ip4addr),
-            ('{{datetime}}', bounce_datetime),
-            ('{{datetime_uuid}}', bounce_datetime_uuid),
-            ('{{google_uuid}}', bounce_google_uuid),
+            ('{{to}}', self.bounce_to),
+            ('{{verp}}', self.bounce_verp),
+            ('{{ip4addr}}', self.bounce_ip4addr),
+            ('{{datetime}}', self.bounce_datetime),
+            ('{{datetime_uuid}}', self.bounce_datetime_uuid),
+            ('{{google_uuid}}', self.bounce_google_uuid),
         ]
         for holder, func in placeholders:
             text = text.replace(holder, func(recip_addr))
         return code, enhanced, text
 
-def bounce_to(t):
-    return t
+    def bounce_to(self, t):
+        return t
 
-# e.g. <corrina244443-taylordavidg=shaw.ca@promonearme.com>
-# wikipedians-owner+bob=example.org@example.net
-def bounce_verp(t):
-    localpart, domainpart = t.split('@')
-    v = '<mylist123-owner+' + localpart + '=' + domainpart + '@example.com>'
-    return v
+    # e.g. <corrina244443-taylordavidg=shaw.ca@promonearme.com>
+    # wikipedians-owner+bob=example.org@example.net
+    def bounce_verp(self, t):
+        localpart, domainpart = t.split('@')
+        v = '<mylist123-owner+' + localpart + '=' + domainpart + '@example.com>'
+        return v
 
-def bounce_ip4addr(t):
-    return '{}.{}.{}.{}'.format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    def bounce_ip4addr(self, t):
+        return '{}.{}.{}.{}'.format(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
-# e.g. 2023-06-13T23:35:18.453Z
-def bounce_datetime(t):
-    return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    # e.g. 2023-06-13T23:35:18.453Z
+    def bounce_datetime(self, t):
+        return datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
-# e.g. 08DB6BB234EB8972
-def bounce_datetime_uuid(t):
-    n = random.randint(0, 16**15)
-    return f'0{n:15X}'
+    # e.g. 08DB6BB234EB8972
+    def bounce_datetime_uuid(self, t):
+        n = random.randint(0, 16**15)
+        return f'0{n:15X}'
 
-# e.g. b5-20020a1709062b4500b0096f6a9105absi8004221ejg.48, zm10-20020a170906994a00b009745adb3c21si7135862ejb.428
-def bounce_google_uuid(t):
-    n = random.randint(0, 16**15)
-    n2 = random.randint(0, 16**15)
-    s = rand_ascii_letter() + rand_digit() + '-' + f'0{n:15x}' + rand_ascii_letter() + rand_ascii_letter() + rand_ascii_letter() + f'0{n2:15x}' +\
-        rand_ascii_letter() + rand_ascii_letter() + rand_ascii_letter() + '.' + str(random.randint(0,999))
-    return s
+    # e.g. b5-20020a1709062b4500b0096f6a9105absi8004221ejg.48, zm10-20020a170906994a00b009745adb3c21si7135862ejb.428
+    def bounce_google_uuid(self, t):
+        n = random.randint(0, 16**15)
+        n2 = random.randint(0, 16**15)
+        s = rand_ascii_letter() + rand_digit() + '-' + f'0{n:15x}' + rand_ascii_letter() + rand_ascii_letter() + rand_ascii_letter() + f'0{n2:15x}' +\
+            rand_ascii_letter() + rand_ascii_letter() + rand_ascii_letter() + '.' + str(random.randint(0,999))
+        return s
+
+    def is_google(self, d):
+        domains = ['gmail.com']
+        return (d in domains), len(domains)
+
+    def is_microsoft(self, d):
+        domains = ['hotmail.com', 'msn.com', 'hotmail.co.jp', 'live.com', 'outlook.com', 'hotmail.co.uk', 'hotmail.fr', 'live.jp', 'hotmail.de',
+            'live.co.uk', 'hotmail.es', 'live.fr', 'live.in']
+        return (d in domains), len(domains)
+
+    def is_yahoo(self, d):
+        domains = ['yahoo.ca', 'yahoo.co.in', 'yahoo.co.jp', 'yahoo.co.uk', 'yahoo.com', 'yahoo.com.br', 'yahoo.de', 'yahoo.es', 'yahoo.gr', 
+            'yahoo.ie', 'yahoo.in', 'yahoo.it']
+        return (d in domains), len(domains)
+
+    def is_others(self, d):
+        return True, len(self.domain_codes) # Note this is slightly on the low side 
+
 
 def rand_ascii_letter():
     return random.choice(string.ascii_lowercase)
 
+
 def rand_digit():
     return random.choice(string.digits)
+
 
 # -----------------------------------------------------------------------------------------
 # Configurable email content
@@ -177,11 +194,17 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
         msg['From'] = from_addr
         msg['To'] = recip_addr
         msg['X-Job'] = x_job
+        # special configurable bounce rates for Yahoo domains
+        percent = 40
+        if bounces.yahoo_backoff:
+            t, _ = bounces.is_yahoo(recip_domain)
+            if t:
+                bounce_rate = bounces.yahoo_backoff
         # check and mark the message to bounce in the header
         if random.random() <= bounce_rate:
             code, enhanced, bounce_text = bounces.rand_bounce(recip_domain, recip_addr.username)
             msg['X-Bounce-Me'] = f'{code} {enhanced} {bounce_text}'
-            msg['X-Bounce-Percentage'] = '40' # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
+            msg['X-Bounce-Percentage'] = str(percent) # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
         msg.set_content(body_text)
         msg.add_alternative(body_html, subtype='html')
         return msg
@@ -191,7 +214,7 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     with open('demo_bounces.csv', 'r') as bounce_file:
-        bounces = BounceCollection(bounce_file)
+        bounces = BounceCollection(bounce_file, yahoo_backoff = 0.8)
         with open('sender_subjects.csv') as sender_subjects_file:
             content = EmailContent(sender_subjects_file)
             nNames = 50

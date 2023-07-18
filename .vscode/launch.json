@@ -13,7 +13,8 @@
             "justMyCode": true,
             "args": [ "--bounces", "demo_bounces.csv",
                 "--sender-subjects", "sender_subjects.csv",
-                "--daily-volume", "40000"]
+                "--daily-volume", "150000",
+                "--yahoo-backoff", "0.8"]
         }
     ]
 }
