@@ -71,11 +71,13 @@ if __name__ == "__main__":
         description='Generate SMTP traffic with headers to cause some messages to bounce back from the sink')
     parser.add_argument('--bounces', type=argparse.FileType('r'), required=True, help='bounce configuration file (csv)')
     parser.add_argument('--sender-subjects', type=argparse.FileType('r'), required=True, help='senders and subjects configuration file (csv)')
+    parser.add_argument('--html-content', type=argparse.FileType('r'), required=True, help='html email content with placeholders')
+    parser.add_argument('--txt-content', type=argparse.FileType('r'), required=True, help='plain text email content with placeholders')
     parser.add_argument('--daily-volume', type=int, required=True, help='daily volume')
     parser.add_argument('--yahoo-backoff', type=float, help='Yahoo-specific bounce rates to cause backoff mode')
     args = parser.parse_args()
     bounces = BounceCollection(args.bounces, args.yahoo_backoff)
-    content = EmailContent(args.sender_subjects)
+    content = EmailContent(args.sender_subjects, args.html_content, args.txt_content)
     traffic_model = Traffic()
     batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = args.daily_volume)
 
@@ -88,7 +90,6 @@ if __name__ == "__main__":
 
     # port 2525 direct to the sink
     # port 25   queue_to_sink listener (passes messages through the MTA to show stats etc)
-    # port 587  for email submission that will be delivered to real MXs
     mail_params = {
         'host': 'localhost',
         'port': 25,

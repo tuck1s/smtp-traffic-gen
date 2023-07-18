@@ -142,7 +142,7 @@ def rand_digit():
 # Configurable email content
 # -----------------------------------------------------------------------------------------
 class EmailContent:
-    def __init__(self, sender_subjects_file: io.BufferedReader):
+    def __init__(self, sender_subjects_file, html_file, txt_file: io.BufferedReader):
         self.content = []
         # Ignore any extra fields such as count
         r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'subject'])
@@ -150,21 +150,8 @@ class EmailContent:
             if row_dict['x_job'] != 'x_job': # skip the header row
                 self.add(row_dict)
 
-        self.htmlLink = 'http://example.com/index.html'
-
-        self.htmlTemplate = \
-'''<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>test mail</title>
-  </head>
-  <body>
-    Click <a href="{}">{}</a>
-  </body>
-</html>'''
-#TODO: add placeholder text and images
-        self.textTemplate = 'Plain text - URL here {}'
+        self.htmlTemplate = html_file.read()
+        self.textTemplate = txt_file.read()
 
     def add(self, sender_subject):
         self.content.append(sender_subject)
@@ -174,8 +161,8 @@ class EmailContent:
         s = random.choice(self.content)
         from_address = Address(s['from_name'], s['from_addr'])
         # Contents include a valid link
-        text = self.textTemplate.format(self.htmlLink)
-        html = self.htmlTemplate.format(self.htmlLink, self.htmlLink)
+        text = self.textTemplate.replace('{{top}}', s['x_job']).replace('{{name}}', s['from_name'])
+        html = self.htmlTemplate.replace('{{top}}', s['x_job']).replace('{{name}}', s['from_name'])
         return s['x_job'], s['subject'], text, html, from_address, float(s['bounce_rate'])
 
 
@@ -215,10 +202,12 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
 if __name__ == "__main__":
     with open('demo_bounces.csv', 'r') as bounce_file:
         bounces = BounceCollection(bounce_file, yahoo_backoff = 0.8)
-        with open('sender_subjects.csv') as sender_subjects_file:
-            content = EmailContent(sender_subjects_file)
-            nNames = 50
-            names = NamesCollection(nNames) # Get some pseudorandom recipients
-            msgs = rand_messages(100, names, content, bounces)
-            for m in msgs:
-                print(m['from'],m['to'],m['subject'])
+        with open('sender_subjects.csv', 'r') as sender_subjects_file:
+            with open('emailcontent.html', 'r') as html_file:
+                with open('emailcontent.txt', 'r') as txt_file:
+                    content = EmailContent(sender_subjects_file, html_file, txt_file)
+                    nNames = 50
+                    names = NamesCollection(nNames) # Get some pseudorandom recipients
+                    msgs = rand_messages(100, names, content, bounces)
+                    for m in msgs:
+                        print(m['from'],m['to'],m['subject'])
