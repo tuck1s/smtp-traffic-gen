@@ -85,6 +85,22 @@ options:
                         Yahoo-specific bounce rates to cause backoff mode
 ```
 
+## Safety first: block outbound port 25
+
+Before sending traffic,  disable outbound port 25 to avoid messages leaving your server. Here's how to do that on Ubuntu
+```
+sudo su -
+apt-get install iptables-persistent
+iptables -A OUTPUT -p tcp --dport 25 -j DROP
+iptables-save >>/etc/iptables/rules.v4
+```
+
+You can test that you've blocked the port correctly by attempting an outbound connection e.g. to Gmail:
+```
+telnet alt1.gmail-smtp-in.l.google.com 25
+```
+You should just see a `Trying ..` line with no handshake response.
+
 ## Running
 
 > NOTE this will attempt to send mail to realistic looking destinations such as gmail.com, hotmail.com etc. Don't do this to an MTA that will actually deliver traffic - use a [sink](https://github.com/tuck1s/halon-sink) instead!
