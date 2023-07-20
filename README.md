@@ -20,7 +20,22 @@ Use `pip` to get `pipenv`:
 ```
 pip install --user pipenv
 ```
-You will need to reload your shell's startup profile to get `pipenv` in your path:
+
+Check if your shell's startup `.profile` contains the following lines already. If it doesn't, paste them in.
+
+```
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+```
+
+To make this active, you will need to reload your shell's startup profile to get `pipenv` in your path:
 ```
 . ~/.profile
 ```
