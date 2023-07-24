@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Current File - fast send",
             "type": "python",
             "request": "launch",
             "program": "${file}",
@@ -17,6 +17,24 @@
                 "--txt-content", "emailcontent.txt",
                 "--daily-volume", "150000",
                 "--yahoo-backoff", "0.8"]
+        },
+        {
+            "name": "Python: Current File - slow cadenced send",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [ "--bounces", "demo_bounces.csv",
+                "--sender-subjects", "sender_subjects.csv",
+                "--html-content", "emailcontent.html",
+                "--txt-content", "emailcontent.txt",
+                "--daily-volume", "150000",
+                "--yahoo-backoff", "0.8",
+                "--max-connections", "2",
+                "--duration", "3600",
+            ]
         }
+
     ]
 }
