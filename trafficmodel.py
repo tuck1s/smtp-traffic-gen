@@ -7,8 +7,8 @@ import random, datetime, zoneinfo, math
 # -----------------------------------------------------------------------------
 class Traffic:
     def __init__(self):
-        # typical triggered email busy hour curve (from 00:00 to 23:00 each day)
-        triggered_volume_per_hour = [6, 4, 3, 2, 1, 0.2, 0.2, 4, 5, 10, 19, 27, 29, 28, 28, 26, 25, 24, 22, 19, 16, 14, 11, 8]
+        # typical triggered email busy hour curve (from 00:00 to 23:00 each day) - slightly more morning traffic for European timezones
+        triggered_volume_per_hour = [2, 1, 1, 2, 5, 12, 14, 6, 8, 10, 19, 27, 29, 28, 28, 26, 25, 24, 22, 19, 16, 14, 11, 8]
         # normalise, so that the sum of all the hourly volume would be ~ 1.0
         total = sum(triggered_volume_per_hour)
         self.normalised_triggered_volume_per_hour = [v / total for v in triggered_volume_per_hour]

@@ -87,7 +87,7 @@ options:
 
 ## Safety first: block outbound port 25
 
-Before sending traffic,  disable outbound port 25 to avoid messages leaving your server, while allowing connections to your `localhost`. Here's how to do that on Ubuntu:
+Before sending traffic,  disable outbound port 25 to avoid messages leaving your server. Here's how to do that on Ubuntu, while allowing connections to your `localhost`.
 ```
 sudo su -
 apt-get install iptables-persistent
@@ -144,7 +144,7 @@ crontab cronfile
 
 ## Traffic volume
 
-This varies pseudo-randomly throughout the day, following a typical US East-Coast daily pattern.
+This varies pseudo-randomly throughout the day, following a typical US East-Coast daily pattern, with a smaller bump for European senders.
 
 ![image](images/daily_traffic.png)
 
