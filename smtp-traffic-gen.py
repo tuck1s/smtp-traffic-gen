@@ -75,6 +75,7 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
 # Main code
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
+    start_time = time.perf_counter()
     parser = argparse.ArgumentParser(
         description='Generate SMTP traffic with headers to cause some messages to bounce back from the sink')
     parser.add_argument('--bounces', type=argparse.FileType('r'), required=True, help='bounce configuration file (csv)')
@@ -93,13 +94,14 @@ if __name__ == "__main__":
 
     nNames = 100 # should be enough for batches up to a few thousand
     print('Getting {} randomized real names from US 1990 census data'.format(nNames))
-    startTime = time.time()
     names = NamesCollection(nNames) # Get some pseudorandom recipients
-    print('Done in {0:.1f}s.'.format(time.time() - startTime))
+
+    print('Done in {0:.3f}s.'.format(time.perf_counter() - start_time))
     print('Yahoo backoff bounce probability', args.yahoo_backoff)
 
     if args.duration > 0:
-        snooze = args.duration / (batch_size / args.max_connections)
+        elapsed_time = max(0, time.perf_counter() - start_time) # ensure monotonic
+        snooze = (args.duration - elapsed_time) / (batch_size / args.max_connections)
     else:
         snooze = 0
     # port 2525 direct to the sink
@@ -112,9 +114,9 @@ if __name__ == "__main__":
         'snooze': snooze,
     }
 
-    startTime = time.time()
+    start_time = time.time()
     msgs = rand_messages(batch_size, names, content, bounces)
     print('Sending {} emails over max {} SMTP connections, {} max messages per connection, cadence {:0.4f} seconds per mail'
         .format(batch_size, mail_params['max_connections'], mail_params['messages_per_connection'], mail_params['snooze']))
     asyncio.run(send_batch(msgs, **mail_params))
-    print('Done in {0:.1f}s.'.format(time.time() - startTime))
+    print('Done in {0:.1f}s.'.format(time.time() - start_time))
