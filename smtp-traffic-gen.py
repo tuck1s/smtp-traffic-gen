@@ -18,7 +18,7 @@ def eprint(*args, **kwargs):
 # -----------------------------------------------------------------------------
 # async SMTP email sending
 # -----------------------------------------------------------------------------
-async def send_msgs_async(msgs: list, host='localhost', port='25', snooze = 0.0):
+async def send_msgs_async(msgs: list, host='localhost', port=25, snooze = 0.0):
     try:
         # Don't attempt SSL from start of connection, but allow STARTTLS (default) with loose certs
         smtp = SMTP(hostname=host, port=port, use_tls=False, validate_certs=False)
@@ -50,19 +50,22 @@ async def send_msgs_async(msgs: list, host='localhost', port='25', snooze = 0.0)
 # f = an iterator (such as a generator function) that will yield the messages to be sent.
 # Per-connection settings such as host and port are passed onwards via kwargs.
 async def send_batch(f: Iterator, messages_per_connection = 100, max_connections = 20, **kwargs):
-    this_batch = []
+    batch = [[] for _ in range(max_connections)]
+    b_id = 0 # round-robin distribution of messages to batch
     coroutines = []
     for i in f:
-        this_batch.append(i)
-        if len(this_batch) >= messages_per_connection:
-            coroutines.append(send_msgs_async(this_batch, **kwargs))
-            this_batch = []
-        # when max connections are ready, dispatch them
+        batch[b_id].append(i)
+        if len(batch[b_id]) >= messages_per_connection:
+            coroutines.append(send_msgs_async(batch[b_id], **kwargs))
+            batch[b_id] = []
+        b_id = (b_id+1) % max_connections
+        # when a full set of coroutines are ready, dispatch them
         if len(coroutines) >= max_connections:
             await asyncio.gather(*coroutines)
             coroutines = []
+
     # handle any remnant
-    if this_batch:
+    for this_batch in batch:
         coroutines.append(send_msgs_async(this_batch, **kwargs))
     if(coroutines):
         await asyncio.gather(*coroutines)
