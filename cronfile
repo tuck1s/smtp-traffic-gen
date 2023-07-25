@@ -1,6 +1,6 @@
 # Add the following lines using crontab -e
 
 # Adjust the path to ensure pipenv can be found
-* * * * * cd /home/ubuntu/smtp-traffic-gen/ && /home/ubuntu/.local/bin/pipenv run ./smtp-traffic-gen.py --bounces demo_bounces.csv --sender-subjects sender_subjects.csv --html-content emailcontent.html --txt-content emailcontent.txt --daily-volume 150000 --yahoo-backoff 0.8 2>./errs.out 1>./std.out
+* * * * * cd /home/ubuntu/smtp-traffic-gen/ && /home/ubuntu/.local/bin/pipenv run ./smtp-traffic-gen.py --bounces demo_bounces.csv --sender-subjects sender_subjects.csv --html-content emailcontent.html --txt-content emailcontent.txt --daily-volume 150000 --yahoo-backoff 0.8 --max-connections 4 --duration 59 2>./errs.out 1>./std.out
 # Uncomment this for Prometheus
 # * * * * * cd /home/ubuntu/ && sudo halonctl process-stats --openmetrics > /halon-stats/process-stats.prom.$$ && mv /halon-stats/process-stats.prom.$$ /halon-stats/process-stats.prom 2>./err>
