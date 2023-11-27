@@ -18,11 +18,12 @@
     "default": {
         "aiosmtplib": {
             "hashes": [
-                "sha256:138599a3227605d29a9081b646415e9e793796ca05322a78f69179f0135016a3",
-                "sha256:1e631a7a3936d3e11c6a144fb8ffd94bb4a99b714f2cb433e825d88b698e37bc"
+                "sha256:43580604b152152a221598be3037f0ae6359c2817187ac4433bd857bc3fc6513",
+                "sha256:abcceae7e820577307b4cda2041b2c25e5121469c0e186764ddf8e15b12064cd"
             ],
             "index": "pypi",
-            "version": "==2.0.2"
+            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "version": "==3.0.1"
         },
         "names": {
             "hashes": [
@@ -37,6 +38,7 @@
                 "sha256:7e65763eef3120314099b6939b5546db7adce1e7d6f2e179e3df563c70511eda"
             ],
             "index": "pypi",
+            "markers": "python_version >= '2'",
             "version": "==2023.3"
         }
     },
