@@ -184,7 +184,7 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
         # special configurable bounce rates for Yahoo domains
         percent = 40
         if x_job == 'Phil':
-            percent = 40
+            percent = 95
         if bounces.yahoo_backoff:
             t, _ = bounces.is_yahoo(recip_domain)
             if t:
