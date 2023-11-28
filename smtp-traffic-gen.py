@@ -90,6 +90,7 @@ if __name__ == "__main__":
     parser.add_argument('--daily-volume', type=int, required=True, help='daily volume')
     parser.add_argument('--yahoo-backoff', type=float, help='Yahoo-specific bounce rates to cause backoff mode')
     parser.add_argument('--max-connections', type=int, default=20, help='Maximum number of SMTP connections to open')
+    parser.add_argument('--messages-per-connection', type=int, default=100, help='Maximum number of messages to send on a connection')
     parser.add_argument('--duration', type=int, default = 0, help='duration to cadence this send, default is "as fast as possible"')
     parser.add_argument('--server', type=str, default = 'localhost:25', help='server:port to inject messages to')
     parser.add_argument('--auth-user', type=str, help='authentication user name')
@@ -112,15 +113,18 @@ if __name__ == "__main__":
         snooze = (args.duration - elapsed_time) / (batch_size / args.max_connections)
     else:
         snooze = 0
-    # port 2525 direct to the sink
-    # port 25   queue_to_sink listener (passes messages through the MTA to show stats etc)
-    host, port = args.server.split(':')
-    if port == '':
-        port = 25
+
+    # Get host & port from the --server param
+    if ':' in args.server:
+        host, port = args.server.split(':')
+    else:
+        host = args.server
+        port = '25'
+ 
     mail_params = {
         'host': host,
-        'port': port,
-        'messages_per_connection': 100,
+        'port': int(port),
+        'messages_per_connection': args.messages_per_connection,
         'max_connections': args.max_connections,
         'snooze': snooze,
         'username': args.auth_user,
@@ -129,8 +133,9 @@ if __name__ == "__main__":
 
     start_time = time.time()
     msgs = rand_messages(batch_size, names, content, bounces)
-    print('Sending {} emails over max {} SMTP connections to {}:{}, {} max messages per connection, cadence {:0.4f} seconds per mail'
-        .format(batch_size, mail_params['max_connections'], mail_params['host'], mail_params['port'], mail_params['messages_per_connection'], mail_params['snooze']))
-    print('auth-user: {}, auth-pass: {}'.format(args.auth_user, args.auth_pass))
+    print(f"Sending {batch_size} messages, with auth-user: {mail_params['username']}, auth-pass: {mail_params['password']}")
+    print(f"Max {mail_params['max_connections']} SMTP connections to {mail_params['host']}:{mail_params['port']},"
+          f"{mail_params['messages_per_connection']} max messages per connection, cadence {mail_params['snooze']:.4f} seconds per mail")
+
     asyncio.run(send_batch(msgs, **mail_params))
-    print('Done in {0:.1f}s.'.format(time.time() - start_time))
+    print(f"Done in {time.time() - start_time:.1f}s.")
