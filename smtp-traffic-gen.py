@@ -2,7 +2,7 @@
 #
 # SMTP Traffic Generator
 
-import sys, time, asyncio, datetime, argparse
+import sys, time, asyncio, datetime, argparse, re
 from aiosmtplib import SMTP
 from aiosmtplib.errors import SMTPException
 from typing import Iterator
@@ -18,7 +18,7 @@ def eprint(*args, **kwargs):
 # -----------------------------------------------------------------------------
 # async SMTP email sending
 # -----------------------------------------------------------------------------
-async def send_msgs_async(msgs: list, host='localhost', port=25, snooze = 0.0, username=None, password=None):
+async def send_msgs_async(msgs: list, host='localhost', port=25, snooze = 0.0, username=None, password=None, headers=[]):
     try:
         # Don't attempt SSL from start of connection, but allow STARTTLS (default) with loose certs
         smtp = SMTP(hostname=host, port=port, use_tls=False, validate_certs=False)
@@ -30,6 +30,8 @@ async def send_msgs_async(msgs: list, host='localhost', port=25, snooze = 0.0, u
 
         for msg in msgs:
             t1 = time.perf_counter()
+            for hdr, value in headers.items():
+                msg.add_header(hdr, value)
             errors, etext = await smtp.send_message(msg)
             if snooze > 0:
                 # Adjust for elapsed time to send message
@@ -76,6 +78,14 @@ async def send_batch(f: Iterator, messages_per_connection = 100, max_connections
         await asyncio.gather(*coroutines)
 
 
+# Validate and split an input string. Separator can be = or :
+def validate_split_arg(arg_value):
+    parts = re.split(r'[:=]', arg_value)
+    if len(parts) != 2:
+        raise argparse.ArgumentTypeError("must be in the format 'key=value'")
+    return parts[0], parts[1]
+
+
 # -----------------------------------------------------------------------------
 # Main code
 # -----------------------------------------------------------------------------
@@ -87,7 +97,9 @@ if __name__ == "__main__":
     parser.add_argument('--sender-subjects', type=argparse.FileType('r'), required=True, help='senders and subjects configuration file (csv)')
     parser.add_argument('--html-content', type=argparse.FileType('r'), required=True, help='html email content with placeholders')
     parser.add_argument('--txt-content', type=argparse.FileType('r'), required=True, help='plain text email content with placeholders')
-    parser.add_argument('--daily-volume', type=int, required=True, help='daily volume')
+    exclusive_group = parser.add_mutually_exclusive_group(required=True)
+    exclusive_group.add_argument('--daily-volume', type=int, help='daily volume, apply traffic model')
+    exclusive_group.add_argument('--volume', type=int, help='exact volume for this run')
     parser.add_argument('--yahoo-backoff', type=float, help='Yahoo-specific bounce rates to cause backoff mode')
     parser.add_argument('--max-connections', type=int, default=20, help='Maximum number of SMTP connections to open')
     parser.add_argument('--messages-per-connection', type=int, default=100, help='Maximum number of messages to send on a connection')
@@ -95,11 +107,16 @@ if __name__ == "__main__":
     parser.add_argument('--server', type=str, default = 'localhost:25', help='server:port to inject messages to')
     parser.add_argument('--auth-user', type=str, help='authentication user name')
     parser.add_argument('--auth-pass', type=str, help='authentication password')
+    parser.add_argument('--add-header', type=validate_split_arg, nargs='*', help='add a header on each email')
+
     args = parser.parse_args()
     bounces = BounceCollection(args.bounces, args.yahoo_backoff)
     content = EmailContent(args.sender_subjects, args.html_content, args.txt_content)
-    traffic_model = Traffic()
-    batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = args.daily_volume)
+    if args.daily_volume:
+        traffic_model = Traffic()
+        batch_size = traffic_model.volume_this_minute(datetime.datetime.now(), daily_vol = args.daily_volume)
+    elif args.volume:
+        batch_size = args.volume
 
     nNames = 100 # should be enough for batches up to a few thousand
     print('Getting {} randomized real names from US 1990 census data'.format(nNames))
@@ -120,7 +137,7 @@ if __name__ == "__main__":
     else:
         host = args.server
         port = '25'
- 
+
     mail_params = {
         'host': host,
         'port': int(port),
@@ -129,13 +146,14 @@ if __name__ == "__main__":
         'snooze': snooze,
         'username': args.auth_user,
         'password': args.auth_pass,
+        'headers': dict(args.add_header),
     }
 
     start_time = time.time()
     msgs = rand_messages(batch_size, names, content, bounces)
     print(f"Sending {batch_size} messages, with auth-user: {mail_params['username']}, auth-pass: {mail_params['password']}")
-    print(f"Max {mail_params['max_connections']} SMTP connections to {mail_params['host']}:{mail_params['port']},"
+    print(f"Max {mail_params['max_connections']} SMTP connections to {mail_params['host']}:{mail_params['port']}, "
           f"{mail_params['messages_per_connection']} max messages per connection, cadence {mail_params['snooze']:.4f} seconds per mail")
-
-    asyncio.run(send_batch(msgs, **mail_params))
+    print(f"headers: {mail_params['headers']}")
+    asyncio.run(send_batch(msgs, **mail_params), debug=True)
     print(f"Done in {time.time() - start_time:.1f}s.")

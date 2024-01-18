@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python: Current File - user+pass",
             "type": "python",
@@ -45,7 +46,51 @@
                 "--auth-user", "test",
                 "--auth-pass", "8611a6dc-d1b4-4aab-b1ee-1b448b5f702d",
             ]
+        },
+        {
+            "name": "Python: Current File - user+pass - Docker 1588",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [ "--bounces", "demo_bounces.csv",
+                "--sender-subjects", "sender_subjects.csv",
+                "--html-content", "emailcontent.html",
+                "--txt-content", "emailcontent.txt",
+                "--daily-volume", "1500000",
+                "--yahoo-backoff", "0.8",
+                "--max-connections", "20",
+                "--messages-per-connection", "50",
+                // "--duration", "55",
+                "--server", "localhost:1588",
+                "--auth-user", "kt-dev-eks-staging-user",
+                "--auth-pass", "test",
+                "--add-header", "x-virtual-mta=steve-test",
+            ]
+        },
+        {
+            "name": "user+pass - Docker 1588, exact volume",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [ "--bounces", "demo_bounces.csv",
+                "--sender-subjects", "sender_subjects.csv",
+                "--html-content", "emailcontent.html",
+                "--txt-content", "emailcontent.txt",
+                //"--daily-volume", "1500000",
+                "--volume", "10000",
+                "--yahoo-backoff", "0.8",
+                "--max-connections", "20",
+                "--messages-per-connection", "50",
+                // "--duration", "55",
+                "--server", "localhost:1588",
+                "--auth-user", "kt-dev-eks-staging-user",
+                "--auth-pass", "test",
+                "--add-header", "x-virtual-mta=steve-test",
+            ]
         }
-
     ]
 }
