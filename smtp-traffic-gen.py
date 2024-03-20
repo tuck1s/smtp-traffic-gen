@@ -18,7 +18,7 @@ def eprint(*args, **kwargs):
 # -----------------------------------------------------------------------------
 # async SMTP email sending
 # -----------------------------------------------------------------------------
-async def send_msgs_async(msgs: list, host='localhost', port=25, snooze = 0.0, username=None, password=None, headers=[]):
+async def send_msgs_async(msgs: list, host='localhost', port=25, snooze = 0.0, username=None, password=None, headers={}):
     try:
         # Don't attempt SSL from start of connection, but allow STARTTLS (default) with loose certs
         smtp = SMTP(hostname=host, port=port, use_tls=False, validate_certs=False)
@@ -146,14 +146,15 @@ if __name__ == "__main__":
         'snooze': snooze,
         'username': args.auth_user,
         'password': args.auth_pass,
-        'headers': dict(args.add_header),
+        'headers': dict(args.add_header) if args.add_header else {},
     }
 
-    start_time = time.time()
     msgs = rand_messages(batch_size, names, content, bounces)
     print(f"Sending {batch_size} messages, with auth-user: {mail_params['username']}, auth-pass: {mail_params['password']}")
     print(f"Max {mail_params['max_connections']} SMTP connections to {mail_params['host']}:{mail_params['port']}, "
           f"{mail_params['messages_per_connection']} max messages per connection, cadence {mail_params['snooze']:.4f} seconds per mail")
     print(f"headers: {mail_params['headers']}")
-    asyncio.run(send_batch(msgs, **mail_params), debug=True)
-    print(f"Done in {time.time() - start_time:.1f}s.")
+    print("Starting at", time.strftime('%Y/%m/%d %H:%M:%S', time.localtime(time.time())) )
+    start_time = time.perf_counter()
+    asyncio.run(send_batch(msgs, **mail_params))
+    print(f"Done in {time.perf_counter() - start_time:.1f}s.")

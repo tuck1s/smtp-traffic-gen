@@ -31,7 +31,7 @@ class NamesCollection:
 # Realistic bounce codes
 # -----------------------------------------------------------------------------------------
 class BounceCollection:
-    def __init__(self, bounce_file: io.BufferedReader, yahoo_backoff: float):
+    def __init__(self, bounce_file: io.BufferedReader, yahoo_backoff: float = 0.0):
         self.yahoo_backoff = yahoo_backoff # Special bounce rate for these domains
         self.domain_codes = {}
         self.domains = []
@@ -65,6 +65,9 @@ class BounceCollection:
         dlist = random.choices(self.domains, self.weights)
         return dlist[0]
 
+    def all_domains(self):
+        return self.domains
+    
     # Return a random bounce (code, enhanced, text) for a given domain and recipient
     def rand_bounce(self, domain, recip_addr:str):
         codes = self.domain_codes[domain] # note this returns a list, so have to dereference it
