@@ -1,21 +1,21 @@
-x_job,from_name,from_addr,bounce_rate,subject
-Acme,Acme Adventures,alice@acme-adventures.com,0.05,Today's 🔥 discount item - pre-owned bungee cords
-Acme,Acme Adventures,alice@acme-adventures.com,0.04,Big savings 💰 on white water 🛶 canoe trips
-Acme,Acme Adventures,alice@acme-adventures.com,0.03,Welcome to our club 🥳 Hit the slopes 🏂
-Acme,Acme Adventures,alice@acme-adventures.com,0.02,Password reset
-Acme,Acme Adventures,alice@acme-adventures.com,0.02,🔑 Here's your secure account access code
-Bobs,Bob's Burgers,bob@burgers.com,0.05,🥡 Exchange your loyalty points for a tasty 🍔 elk-burger
-Bobs,Bob's Burgers,bob@burgers.com,0.03,Someone 👀 upvoted your favorite 🍔 burger toppings
-Bobs,Bob's Burgers,bob@burgers.com,0.02,Your order is despatched
-Bobs,Bob's Burgers,bob@burgers.com,0.02,Reset your Bob's Burgers password now 🔑
-Chaz,Creative Climbing,charlie@creative-climbing.com,0.05,$1500 gear giveway 🏔️ Haglofs 🐺 Jack Wolfskin 🧭 Silva 🎒 Lowe Alpine
-Chaz,Creative Climbing,charlie@creative-climbing.com,0.05,"We ask: can only 🇳🇴 Norwegians afford Hilleberg 🏕️ tents?"
-Chaz,Creative Climbing,charlie@creative-climbing.com,0.04,Multi-trip insurance including off-piste cover for $99
-Chaz,Creative Climbing,charlie@creative-climbing.com,0.03,🚚 Your order is on the way
-Dani,Dani's Dance Studios,dani@dance-studios.com,0.05,New Saturday Salsa 💃 classes open - enroll now
-Dani,Dani's Dance Studios,dani@dance-studios.com,0.03,Ballet 🩰 blitz! All shoes half-price
-Dani,Dani's Dance Studios,dani@dance-studios.com,0.02,Booking confirmed 🎶 for 🕺 Dad Dancing Class!
-Phil,Phil The Plumber,phil@plumbing-pros.com,0.05,How to fix a clogged toilet 🚽
-Phil,Phil The Plumber,phil@plumbing-pros.com,0.03,Is it time to upgrade your water heaters? 💧🔥
-Phil,Phil The Plumber,phil@plumbing-pros.com,0.02,Leaky pipes need immediate attention!
-Phil,Phil The Plumber,phil@plumbing-pros.com,0.01,Great deals on bathroom remodeling 🚿
+x_job,from_name,from_addr,bounce_rate,retry_percent,subject
+Acme,Acme Adventures,alice@acme-adventures.com,0.05,40,Today's 🔥 discount item - pre-owned bungee cords
+Acme,Acme Adventures,alice@acme-adventures.com,0.04,40,Big savings 💰 on white water 🛶 canoe trips
+Acme,Acme Adventures,alice@acme-adventures.com,0.03,40,,Welcome to our club 🥳 Hit the slopes 🏂
+Acme,Acme Adventures,alice@acme-adventures.com,0.02,40,Password reset
+Acme,Acme Adventures,alice@acme-adventures.com,0.02,40,🔑 Here's your secure account access code
+Bobs,Bob's Burgers,bob@burgers.com,0.05,40,🥡 Exchange your loyalty points for a tasty 🍔 elk-burger
+Bobs,Bob's Burgers,bob@burgers.com,0.03,40,Someone 👀 upvoted your favorite 🍔 burger toppings
+Bobs,Bob's Burgers,bob@burgers.com,0.02,40,Your order is despatched
+Bobs,Bob's Burgers,bob@burgers.com,0.02,40,Reset your Bob's Burgers password now 🔑
+Chaz,Creative Climbing,charlie@creative-climbing.com,0.05,40,$1500 gear giveway 🏔️ Haglofs 🐺 Jack Wolfskin 🧭 Silva 🎒 Lowe Alpine
+Chaz,Creative Climbing,charlie@creative-climbing.com,0.05,40,"We ask: can only 🇳🇴 Norwegians afford Hilleberg 🏕️ tents?"
+Chaz,Creative Climbing,charlie@creative-climbing.com,0.04,40,Multi-trip insurance including off-piste cover for $99
+Chaz,Creative Climbing,charlie@creative-climbing.com,0.03,40,🚚 Your order is on the way
+Dani,Dani's Dance Studios,dani@dance-studios.com,0.05,40,New Saturday Salsa 💃 classes open - enroll now
+Dani,Dani's Dance Studios,dani@dance-studios.com,0.03,40,Ballet 🩰 blitz! All shoes half-price
+Dani,Dani's Dance Studios,dani@dance-studios.com,0.02,40,Booking confirmed 🎶 for 🕺 Dad Dancing Class!
+Phil,Phil The Plumber,phil@plumbing-pros.com,0.05,40,How to fix a clogged toilet 🚽
+Phil,Phil The Plumber,phil@plumbing-pros.com,0.03,40,Is it time to upgrade your water heaters? 💧🔥
+Phil,Phil The Plumber,phil@plumbing-pros.com,0.02,40,Leaky pipes need immediate attention!
+Phil,Phil The Plumber,phil@plumbing-pros.com,0.01,40,Great deals on bathroom remodeling 🚿

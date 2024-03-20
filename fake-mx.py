@@ -44,4 +44,5 @@ if __name__ == "__main__":
     bounces = BounceCollection(args.bounces)
     # List of all domains, deduped and alphabetically sorted
     my_records = myDNS(sorted(set(bounces.all_domains())))
+    # Output in a format for "unbound" conf file
     my_records.print('  local-data: "', '"')

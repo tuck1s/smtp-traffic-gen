@@ -148,7 +148,7 @@ class EmailContent:
     def __init__(self, sender_subjects_file, html_file, txt_file: io.BufferedReader):
         self.content = []
         # Ignore any extra fields such as count
-        r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'subject'])
+        r = csv.DictReader(sender_subjects_file, fieldnames=['x_job', 'from_name', 'from_addr', 'bounce_rate', 'retry_percent', 'subject'])
         for row_dict in r:
             if row_dict['x_job'] != 'x_job': # skip the header row
                 self.add(row_dict)
@@ -166,7 +166,7 @@ class EmailContent:
         # Contents include a valid link
         text = self.textTemplate.replace('{{top}}', s['x_job']).replace('{{name}}', s['from_name'])
         html = self.htmlTemplate.replace('{{top}}', s['x_job']).replace('{{name}}', s['from_name'])
-        return s['x_job'], s['subject'], text, html, from_address, float(s['bounce_rate'])
+        return s['x_job'], s['subject'], text, html, from_address, float(s['bounce_rate']), s['retry_percent']
 
 
 # Generator yielding a list of n randomized messages
@@ -179,15 +179,12 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
         recip_domain = bounces.rand_domain()
         recip_addr = names.rand_recip(recip_domain)
         msg = EmailMessage()
-        x_job, subject, body_text, body_html, from_addr, bounce_rate = content.rand_job_subj_text_html_from()
+        x_job, subject, body_text, body_html, from_addr, bounce_rate, retry_percent = content.rand_job_subj_text_html_from()
         msg['Subject'] = subject
         msg['From'] = from_addr
         msg['To'] = recip_addr
         msg['X-Job'] = x_job
         # special configurable bounce rates for Yahoo domains
-        percent = 40
-        if x_job == 'Phil':
-            percent = 40
         if bounces.yahoo_backoff:
             t, _ = bounces.is_yahoo(recip_domain)
             if t:
@@ -196,7 +193,7 @@ def rand_message(names: NamesCollection, content: EmailContent, bounces: BounceC
         if random.random() <= bounce_rate:
             code, enhanced, bounce_text = bounces.rand_bounce(recip_domain, recip_addr.username)
             msg['X-Bounce-Me'] = f'{code} {enhanced} {bounce_text}'
-            msg['X-Bounce-Percentage'] = str(percent) # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
+            msg['X-Bounce-Percentage'] = str(retry_percent) # Pass in a <100 bounce percentage, so that deferred messages will eventually clear
         msg.set_content(body_text)
         msg.add_alternative(body_html, subtype='html')
         return msg
